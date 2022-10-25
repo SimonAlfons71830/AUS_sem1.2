@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hospital_information_sytem.structures;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,11 @@ namespace Hospital_information_sytem
 {
     public partial class Form2 : Form
     {
-        public Form2()
+        protected Informacny_system inf_system;
+        public Form2(Informacny_system inf_system)
         {
             InitializeComponent();
+            this.inf_system = inf_system;
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -32,6 +35,7 @@ namespace Hospital_information_sytem
         {
             //meno pacienta
             
+
               
             
             
@@ -52,7 +56,7 @@ namespace Hospital_information_sytem
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //??
-            button1.Enabled = textBox1.Enabled && textBox2.Enabled && textBox3.Enabled && comboBox1.Enabled && dateTimePicker1.Enabled;
+            //button1.Enabled = textBox1.Enabled && textBox2.Enabled && textBox3.Enabled && comboBox1.Enabled && dateTimePicker1.Enabled;
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -69,14 +73,56 @@ namespace Hospital_information_sytem
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+
             //pridaj pacienta do databazy
+           
+            String meno = textBox1.Text;
+            String priezvisko = textBox2.Text;
+            String rod_cislo = textBox3.Text;
+            DateTime datum_narodenia = dateTimePicker1.Value;
+            String nazov_nemocnice = comboBox2.Text;
+            String nazov_poistovne = comboBox1.Text;
+            
+
             DialogResult dr = MessageBox.Show("Chcete ulozit pacienta?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
+                if (meno != string.Empty && priezvisko != string.Empty && rod_cislo != string.Empty && datum_narodenia != null) 
+                {
+                    var nemocnica = inf_system.NajdiNemocnicu(nazov_nemocnice);
+                    if (nemocnica != null)
+                    {
+                        var pacient = nemocnica.PridajPacienta(meno, priezvisko, rod_cislo, datum_narodenia, nazov_poistovne, nazov_nemocnice);
+                        if (pacient)
+                        {
+                            MessageBox.Show("Pacient bol pridany do nemocnice.");
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Pacienta sa nepodarilo pridat do nemocnice.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Zadanú nemocnicu sa nepdarilo nájsť.");
+                    }
+                    
+                    
+                }
                 this.Close();
             }
             
+        }
+
+        private void label7_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

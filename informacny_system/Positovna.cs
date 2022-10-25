@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hospital_information_sytem.informacny_system
 {
-    internal class Positovna
+    public class Positovna
     {
         public String kod_poistovne;
         public String nazov_poistovne;

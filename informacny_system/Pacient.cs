@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hospital_information_sytem.informacny_system
 {
-    internal class Pacient
+    public class Pacient
     {
         public String rod_cislo { get; set; }
         public String meno { get; set; }
@@ -15,4 +15,6 @@ namespace Hospital_information_sytem.informacny_system
         public DateTime datum_narodenia { get; set; }
         List<Hospitalizacia> hospitalizacie = new List<Hospitalizacia>();
     }
+
+
 }

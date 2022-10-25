@@ -24,7 +24,12 @@ namespace Hospital_information_sytem.structures
             }
             return true;
         }
-        
+        public Nemocnica NajdiNemocnicu(String nazov) 
+        {
+            if (nazov == string.Empty) { return null; }
+            var pom = databaza_nemocnic.FindNode(nazov).Data;
+            if (pom == null) { return null; } else { return pom; }
+        }
 
 
 

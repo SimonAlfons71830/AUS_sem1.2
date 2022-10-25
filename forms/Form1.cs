@@ -49,7 +49,7 @@ namespace Hospital_information_sytem
         {
             //pridaj pacienta
 
-            var pridajPacienta = new Form2();
+            var pridajPacienta = new Form2(inf_system);
             pridajPacienta.ShowDialog();
         }
 

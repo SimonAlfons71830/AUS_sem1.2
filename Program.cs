@@ -1,4 +1,5 @@
-﻿using Hospital_information_sytem.structures;
+﻿using Hospital_information_sytem.informacny_system;
+using Hospital_information_sytem.structures;
 using Hospital_information_sytem.tests;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,25 @@ namespace Hospital_information_sytem
         [STAThread]
         static void Main()
         {
+            Informacny_system inf_system = new Informacny_system();
+            inf_system.PridajPoistovnu();
+            Data_Generator generator = new Data_Generator();
+            for (int i = 0; i < 10; i++)
+            {
+                generator.GenerujNemocnicu(inf_system);
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                generator.GenerujPacientaVPoistenca(inf_system);
+            }
+
+
             //GUI
-            Informacny_system system = new Informacny_system();
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(system));
+            Application.Run(new Form1(inf_system));
 
-            
             /*Tests test = new Tests();
 
             Console.WriteLine("=====================================================================================");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hospital_information_sytem.informacny_system
 {
-    internal class Poistenec
+    public class Poistenec
     {
         public String id_poistenca { get; set; }
         public String rod_cislo_poistenca { get; set; }

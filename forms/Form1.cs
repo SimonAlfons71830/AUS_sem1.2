@@ -1,4 +1,5 @@
-﻿using Hospital_information_sytem.structures;
+﻿using Hospital_information_sytem.informacny_system;
+using Hospital_information_sytem.structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,8 @@ namespace Hospital_information_sytem
             this.inf_system = system;
             InitializeComponent();
             
+            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)

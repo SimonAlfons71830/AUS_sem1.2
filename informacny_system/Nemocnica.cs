@@ -24,7 +24,7 @@ namespace Hospital_information_sytem.informacny_system
             pacient.priezvisko = priezvisko;
             pacient.kod_poistovne = kod_poistovne;
             var pom = this.pacienti.Insert(rod_cislo, pacient);
-            if (pacient == null) { return false; } 
+            if (pom == null) { return false; } 
             return true;
 
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hospital_information_sytem.structures
 {
-    internal class Node<K,T> where K : IComparable<K>
+    public class Node<K,T> where K : IComparable<K>
     {
         public K Key { get; set; }
         public T Data { get; set; }

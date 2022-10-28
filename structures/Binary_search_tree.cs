@@ -580,6 +580,7 @@ namespace Hospital_information_sytem.structures
                 }
             }
         }
+
         //Metodad ktora bdue rotovat strom podla Nodov na aktualnom lever order leveli
         //Nody z kazdeho level order levelu si ulozi do queue
         //z queueu bude vyberat postupne vrcholy a volat nad nimi metodu vyvyazStrom, ktora urobi z kazdeho vrhcolu obratene V
@@ -629,7 +630,7 @@ namespace Hospital_information_sytem.structures
             }
         }
         //metoda na vratenie vysky stromu alebo podstromu od zadaneho node
-        private int DajVyskuStromu(Node<K, T> node)
+        public int DajVyskuStromu(Node<K, T> node)
         {
             if (node == null)
                 return 0;
@@ -799,6 +800,22 @@ namespace Hospital_information_sytem.structures
                 this.Insert(node.Key, node.Data);
             }
         }*/
-
+        List<T> inOrderList2 = new List<T>();
+        public List<T> ZapisVsetkyNody(Node<K,T> node) 
+        {
+            if (node == Root)
+            {
+                inOrderList2.Clear();
+            }
+                if (node != null)
+                {
+                    this.ZapisVsetkyNody(node.Left);
+                    inOrderList2.Add(node.Data);
+                    this.ZapisVsetkyNody(node.Right);
+                }
+            return inOrderList2;
+        }
+    
+    
     }
 }

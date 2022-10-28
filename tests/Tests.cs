@@ -155,7 +155,7 @@ namespace Hospital_information_sytem.tests
                 availableKeysForVyvazenie.Add(i);
             }
             var strom = new Binary_search_tree<int, String>();
-            for (int i = 0; i < 50000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 int index = random.Next(0, availableKeysForVyvazenie.Count);
                 int key = availableKeysForVyvazenie.ElementAt(index);
@@ -165,7 +165,7 @@ namespace Hospital_information_sytem.tests
                 strom.Insert(key, data);
             }
             this.InOrderUsporiadanie(strom.Root);
-
+           
 
             var timer = new Stopwatch();
             timer.Start();
@@ -199,7 +199,10 @@ namespace Hospital_information_sytem.tests
                 Console.WriteLine("Nezhoda v dlzke porovnavanych listov.");
                 return;
             }
-
+            if (this.JeVybalancovany(strom.Root))
+            {
+                Console.WriteLine("Strom vybalancovany je.");
+            }
             Console.WriteLine("Vsetky prvky sa zhoduju s In Order prehliadkou - vyvazenie prebehlo v poriadku.");
             Console.WriteLine("Pocet vlozenycha a nasledne otestovanych prvkov: " + usedKeysForVyvazenie.Count);
             Console.WriteLine("Trvanie: " + timeTaken.ToString(@"m\:ss\.fff"));
@@ -227,7 +230,7 @@ namespace Hospital_information_sytem.tests
             var strom2 = new Binary_search_tree<int, String>();
             List<Node<int, String>> listNodov = new List<Node<int, string>>();
 
-            for (int i = 0; i < 50000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 node = new Node<int, string>(default, default);
                 int index = random.Next(0, availableKeysForMedianoveVkladanie.Count);
@@ -253,6 +256,7 @@ namespace Hospital_information_sytem.tests
             timer.Stop();
             TimeSpan timeTaken = timer.Elapsed;
             this.InOrderUsporiadanie2(strom2.Root);
+            
 
             usedKeysForMedianoveVkladanie.Sort();
             if (usedKeysForMedianoveVkladanie.Count == inOrderList2.Count)
@@ -269,6 +273,7 @@ namespace Hospital_information_sytem.tests
                         Console.WriteLine("Prvky v listoch sa nezhoduju.");
                         return;
                     }
+                    
                 }
             }
             else
@@ -276,9 +281,32 @@ namespace Hospital_information_sytem.tests
                 Console.WriteLine("Nezhoda v dlzke porovnavanych listov.");
                 return;
             }
+            if (this.JeVybalancovany(strom2.Root))
+            {
+                Console.WriteLine("Strom vybalancovany je.");
+            }
             Console.WriteLine("Vsetky prvky sa zhoduju s In Order prehliadkou - medianove vlozenie a nasledne vyvazenie prebehlo v poriadku.");
             Console.WriteLine("Pocet vlozenycha a nasledne otestovanych prvkov: " + usedKeysForMedianoveVkladanie.Count);
             Console.WriteLine("Trvanie: " + timeTaken.ToString(@"m\:ss\.fff"));
         }
+        public bool JeVybalancovany(Node<int, String> node)
+        {
+            int lavyVyska;
+            int pravyVyska;
+            if (node == null)
+            {
+                return true;
+            }
+            lavyVyska = binary.DajVyskuStromu(node.Left);
+            pravyVyska = binary.DajVyskuStromu(node.Right);
+
+            if (Math.Abs(lavyVyska - pravyVyska) <= 1 && JeVybalancovany(node.Left)
+                && JeVybalancovany(node.Right))
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

@@ -66,9 +66,18 @@ namespace Hospital_information_sytem
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            /*comboBox1.Items.Add("VZP");
-            comboBox1.Items.Add("DÔVERA");
-            comboBox1.Items.Add("UNION");*/
+            
+            List<informacny_system.Nemocnica> nemocnice = this.inf_system.VratListNemocnic();
+
+            for (int i = 0; i < nemocnice.Count; i++)
+            {
+                comboBox2.Items.Add(nemocnice[i].nazov_nemocnice);
+            }
+            List<informacny_system.Positovna> poistovne = this.inf_system.VratListPoistovni();
+            for (int i = 0; i < poistovne.Count; i++)
+            {
+                comboBox1.Items.Add(poistovne[i].nazov_poistovne);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -90,10 +99,13 @@ namespace Hospital_information_sytem
                 if (meno != string.Empty && priezvisko != string.Empty && rod_cislo != string.Empty && datum_narodenia != null) 
                 {
                     var nemocnica = inf_system.NajdiNemocnicu(nazov_nemocnice);
-                    if (nemocnica != null)
+                    var poistovna = inf_system.NajdiPoistovnu(nazov_poistovne);
+                    if (nemocnica != null && poistovna != null)
                     {
-                        var pacient = nemocnica.PridajPacienta(meno, priezvisko, rod_cislo, datum_narodenia, nazov_poistovne, nazov_nemocnice);
-                        if (pacient)
+
+                        var pacient = nemocnica.PridajPacienta(meno, priezvisko, rod_cislo, datum_narodenia, poistovna.kod_poistovne, nazov_nemocnice);
+                        var poistenec = poistovna.PridajPoistenca(rod_cislo);
+                        if (pacient && poistenec)
                         {
                             MessageBox.Show("Pacient bol pridany do nemocnice.");
 
@@ -121,6 +133,18 @@ namespace Hospital_information_sytem
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+
+            
+        }
+
+        private void panelMenu_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

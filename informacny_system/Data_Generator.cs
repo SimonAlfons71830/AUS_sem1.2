@@ -1,0 +1,89 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FakeItEasy;
+using Faker;
+using Hospital_information_sytem.structures;
+
+namespace Hospital_information_sytem.informacny_system
+{
+    internal class Data_Generator
+    {
+        
+        private Random _random = new Random();
+        public void GenerujPacientaVPoistenca(Informacny_system inf_system) 
+        {
+            Pacient pacient = new Pacient();
+            pacient.meno = Faker.Name.First();
+            pacient.priezvisko = Faker.Name.Last();
+            pacient.datum_narodenia = Faker.Identification.DateOfBirth();
+            string rok = pacient.datum_narodenia.Year.ToString().Substring(2, 2);
+            int mesiac;
+            if (pacient.meno.EndsWith("a"))
+            {
+                mesiac = pacient.datum_narodenia.Month + 50;
+            }
+            else
+            {
+                mesiac = pacient.datum_narodenia.Month;
+            }
+            String mesiacc = mesiac.ToString();
+            if (mesiacc.Length == 1)
+            {
+                mesiacc = "0" + mesiacc;
+            }
+            string den = pacient.datum_narodenia.Day.ToString();
+            if (den.Length == 1)
+            {
+                den = "0" + den;
+            }
+            //random stvorcislie za lomitkom
+            String zaLomkou = _random.Next(0, 9999).ToString("D4");
+
+            pacient.rod_cislo= rok + mesiacc + den + zaLomkou;
+            int kod = _random.Next(1, 3);
+            if (kod == 1)
+            {
+                pacient.kod_poistovne = "VZP";
+            }
+            else if (kod == 2)
+            {
+                pacient.kod_poistovne = "UNI";
+            }
+            else if (kod == 3) {
+                pacient.kod_poistovne = "DVO";
+            }
+            List<Nemocnica> nemocnice = inf_system.VratListNemocnic();
+            int randNemocnica = _random.Next(nemocnice.Count);
+            
+            Nemocnica nemocnica = inf_system.NajdiNemocnicu(nemocnice.ElementAt(randNemocnica).nazov_nemocnice);
+            if (nemocnica != null)
+            {
+                nemocnica.PridajPacienta(pacient.meno, pacient.priezvisko, pacient.rod_cislo, pacient.datum_narodenia, pacient.kod_poistovne, nemocnica.nazov_nemocnice);
+            }
+            List<Positovna> poistovne = inf_system.VratListPoistovni();
+            for (int i = 0; i < poistovne.Count; i++)
+            {
+                if (poistovne.ElementAt(i).kod_poistovne == pacient.kod_poistovne )
+                {
+                    Positovna poistovna = inf_system.NajdiPoistovnu(poistovne.ElementAt(i).nazov_poistovne);
+                    poistovna.PridajPoistenca(pacient.rod_cislo);
+                }
+            }
+        }
+        
+        public void GenerujNemocnicu(Informacny_system inf_system) 
+        {
+            string nazov_nemocnice = Faker.Company.Name() + " Nemocnica";
+            //Nemocnica nemocnica = new Nemocnica();
+            //nemocnica.nazov_nemocnice = nazov_nemocnice;
+            inf_system.PridajNemocnicu(nazov_nemocnice);
+        }
+
+
+        
+        
+    }
+}

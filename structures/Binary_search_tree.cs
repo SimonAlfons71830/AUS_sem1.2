@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hospital_information_sytem.structures
 {
-    internal class Binary_search_tree<K,T> where K: IComparable<K>
+    public class Binary_search_tree<K,T> where K: IComparable<K>
     {
         //konstruktor
         public int Size { get; protected set; }

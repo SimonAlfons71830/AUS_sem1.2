@@ -49,5 +49,10 @@ namespace Hospital_information_sytem
         {
             button1.Enabled = textBox1.Enabled;
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

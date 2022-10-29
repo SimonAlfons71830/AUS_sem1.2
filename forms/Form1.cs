@@ -26,13 +26,15 @@ namespace Hospital_information_sytem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            label1.Text = DateTime.Now.ToLongDateString();
+            label2.Text = DateTime.Now.ToLongTimeString();
+            timer1.Start();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             //button na zacatie hospitalizacie
-            var novaHospitalizacia = new Form3();
+            var novaHospitalizacia = new Form3(inf_system);
             novaHospitalizacia.ShowDialog();
             
         }
@@ -69,6 +71,17 @@ namespace Hospital_information_sytem
         {
             var pridajNemocnicu = new Form5(inf_system);
             pridajNemocnicu.ShowDialog();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label2.Text = DateTime.Now.ToLongTimeString();
+            timer1.Start();
         }
     }
 

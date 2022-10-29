@@ -13,6 +13,10 @@ namespace Hospital_information_sytem.informacny_system
     {
         
         private Random _random = new Random();
+        List<String> pouziteNazvyNemocnic = new List<string>();
+        List<Pacient> generovanyPacienti = new List<Pacient>();
+
+
         public void GenerujPacientaVPoistenca(Informacny_system inf_system) 
         {
             Pacient pacient = new Pacient();
@@ -72,6 +76,7 @@ namespace Hospital_information_sytem.informacny_system
                     poistovna.PridajPoistenca(pacient.rod_cislo);
                 }
             }
+            this.generovanyPacienti.Add(pacient);
         }
         
         public void GenerujNemocnicu(Informacny_system inf_system) 
@@ -80,8 +85,50 @@ namespace Hospital_information_sytem.informacny_system
             //Nemocnica nemocnica = new Nemocnica();
             //nemocnica.nazov_nemocnice = nazov_nemocnice;
             inf_system.PridajNemocnicu(nazov_nemocnice);
+            this.pouziteNazvyNemocnic.Add(nazov_nemocnice);
         }
 
+        public void GenerujHospitalizaciu(Informacny_system informacny_system) 
+        {
+            Hospitalizacia hospitalizacia = new Hospitalizacia();
+            hospitalizacia.PridajDiagnozy();
+            Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
+            Pacient pac = generovanyPacienti.ElementAt(_random.Next(this.generovanyPacienti.Count));
+            
+            //RANDOM DATE OD NARODENIA PACIENTA AZ PO DNES NA ZACATIE HOSPITALIZACIE
+            DateTime start = new DateTime(pac.datum_narodenia.Year, pac.datum_narodenia.Month, pac.datum_narodenia.Day);
+            int range = (DateTime.Today - start).Days;
+            var randDat = start.AddDays(_random.Next(range));
+
+            String denID;
+            if (randDat.Day < 10 )
+            {
+                denID = "0" + randDat.Day.ToString();
+            }
+            else
+            {
+                denID = randDat.Day.ToString(); 
+            }
+
+            String mesiacID;
+            if (randDat.Month< 10)
+            {
+                mesiacID = "0" + randDat.Month.ToString();
+            }
+            else
+            {
+                mesiacID = randDat.Month.ToString();
+            }
+
+            String rokID = randDat.Year.ToString().Substring(2, 2);
+            String id_hospitalizacie = denID + mesiacID + rokID + pac.rod_cislo;
+            List<String> diagnozy = hospitalizacia.VratListDiagnoz();
+            String diagnozaNazov = diagnozy.ElementAt(_random.Next(diagnozy.Count));
+
+            nem.PridajHospitalizaciu(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
+            pac.PridajHospitalizaciuPacientovi(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
+           
+        }
 
         
         

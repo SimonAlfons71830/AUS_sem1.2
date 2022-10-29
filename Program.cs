@@ -19,15 +19,22 @@ namespace Hospital_information_sytem
         {
             Informacny_system inf_system = new Informacny_system();
             inf_system.PridajPoistovnu();
+            
             Data_Generator generator = new Data_Generator();
             for (int i = 0; i < 10; i++)
             {
                 generator.GenerujNemocnicu(inf_system);
+                
             }
             for (int i = 0; i < 100; i++)
             {
                 generator.GenerujPacientaVPoistenca(inf_system);
             }
+            for (int i = 0; i < 50; i++)
+            {
+                    generator.GenerujHospitalizaciu(inf_system);
+            }
+            
 
 
             //GUI

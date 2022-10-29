@@ -56,11 +56,7 @@ namespace Hospital_information_sytem.forms
                 item.SubItems.Add(datum_do);
                 item.SubItems.Add(hospitalizacie.ElementAt(i).nazov_diagnozy);
                 listView1.Items.Add(item);
-
             }
-            
-
-
 
         }
 

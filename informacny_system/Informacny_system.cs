@@ -71,8 +71,9 @@ namespace Hospital_information_sytem.structures
         {
             return this.databaza_poistovni.ZapisVsetkyNody(databaza_poistovni.Root);
         }
-        
-        
+
+       
+
     }
     
 }

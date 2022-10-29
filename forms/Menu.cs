@@ -16,11 +16,12 @@ namespace Hospital_information_sytem
     public partial class Menu : Form
     {
         protected Informacny_system inf_system;
+        public List<Hospitalizacia> aktivneHospitalizacie;
         internal Menu(Informacny_system system)
         {
             this.inf_system = system;
             InitializeComponent();
-            
+            //this.aktivneHospitalizacie = inf_system;
             
 
         }
@@ -42,7 +43,7 @@ namespace Hospital_information_sytem
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var koniecHospitalizacie = new UkonciHosp();
+            var koniecHospitalizacie = new UkonciHosp(inf_system);
             koniecHospitalizacie.ShowDialog();
         }
 

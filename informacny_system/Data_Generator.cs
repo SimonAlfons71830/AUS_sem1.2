@@ -15,7 +15,7 @@ namespace Hospital_information_sytem.informacny_system
         private Random _random = new Random();
         List<String> pouziteNazvyNemocnic = new List<string>();
         List<Pacient> generovanyPacienti = new List<Pacient>();
-
+        public List<String> aktivneHosp = new List<String>();
 
         public void GenerujPacientaVPoistenca(Informacny_system inf_system) 
         {
@@ -152,6 +152,7 @@ namespace Hospital_information_sytem.informacny_system
 
             nem.PridajHospitalizaciu(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
             pac.PridajHospitalizaciuPacientovi(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
+            this.aktivneHosp.Add(id_hospitalizacie);
         }
 
         public void UkonciHospitalizaciuPacienta(Pacient pacient) 
@@ -162,6 +163,7 @@ namespace Hospital_information_sytem.informacny_system
             int range = (DateTime.Today - koniec).Days;
             var randDat = koniec.AddDays(_random.Next(range));
             hosp.datum_do = randDat;
+            this.aktivneHosp.Remove(hosp.id_hospitalizacie);
         }
         
     }

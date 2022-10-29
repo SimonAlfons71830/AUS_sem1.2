@@ -50,6 +50,7 @@ namespace Hospital_information_sytem
                         if (pom && pomPac)
                         {
                             MessageBox.Show("Hospitalizacia bola zaevidovana.");
+                            
                         }
                         else
                         {

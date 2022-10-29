@@ -43,7 +43,7 @@ namespace Hospital_information_sytem.forms
             else
             {
                 var udajeopacientovi = new UdajeOPacientovi(informacny_system, nemocnicaVKtorejHladamPacienta, textBox1.Text);
-                udajeopacientovi.Show();
+                udajeopacientovi.ShowDialog();
                 this.Close();
             }
             

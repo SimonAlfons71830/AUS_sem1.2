@@ -184,6 +184,7 @@
             this.OD,
             this.DO,
             this.DIAGNÓZA});
+            this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(344, 83);
             this.listView1.Name = "listView1";

@@ -46,7 +46,8 @@ namespace Hospital_information_sytem.informacny_system
 
         public List<Hospitalizacia> VratListHospitalizacii()
         {
-            return this.hospitalizaciePacienta;
+            List<Hospitalizacia> hospitalizacieZoradene = this.hospitalizaciePacienta.OrderBy(o => o.datum_od).ToList();
+            return hospitalizacieZoradene;
         }
 
         

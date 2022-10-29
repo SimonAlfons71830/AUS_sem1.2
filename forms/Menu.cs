@@ -95,6 +95,12 @@ namespace Hospital_information_sytem
         {
 
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var zoznamNemocnic = new Nemocnice(inf_system);
+            zoznamNemocnic.ShowDialog();
+        }
     }
 
 

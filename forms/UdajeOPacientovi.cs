@@ -42,9 +42,18 @@ namespace Hospital_information_sytem.forms
                 ListViewItem item = new ListViewItem(hospitalizacie.ElementAt(i).id_hospitalizacie);
                 String datum_od = hospitalizacie.ElementAt(i).datum_od.Day.ToString() + "." + hospitalizacie.ElementAt(i).datum_od.Month.ToString() +
                     "." + hospitalizacie.ElementAt(i).datum_od.Year.ToString();
-
+                String datum_do;
+                if (hospitalizacie.ElementAt(i).datum_do.Year == 0001)
+                {
+                    datum_do = "-";
+                }
+                else
+                {
+                    datum_do = hospitalizacie.ElementAt(i).datum_do.Day.ToString() + "." + hospitalizacie.ElementAt(i).datum_do.Month.ToString() +
+                    "." + hospitalizacie.ElementAt(i).datum_do.Year.ToString();
+                }
                 item.SubItems.Add(datum_od);
-                item.SubItems.Add("-"); //dorobit ked budem mat ukoncene hospitalizacie
+                item.SubItems.Add(datum_do);
                 item.SubItems.Add(hospitalizacie.ElementAt(i).nazov_diagnozy);
                 listView1.Items.Add(item);
 

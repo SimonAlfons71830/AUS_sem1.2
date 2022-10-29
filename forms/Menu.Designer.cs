@@ -43,6 +43,7 @@
             this.button7 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -175,6 +176,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.button7);
             this.panel1.Location = new System.Drawing.Point(1045, 0);
@@ -190,6 +192,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(339, 100);
             this.panel2.TabIndex = 0;
+            // 
+            // button8
+            // 
+            this.button8.Font = new System.Drawing.Font("Bookman Old Style", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.Location = new System.Drawing.Point(0, 159);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(339, 56);
+            this.button8.TabIndex = 11;
+            this.button8.Text = "Nemocnice";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Menu
             // 
@@ -227,6 +240,7 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button button8;
     }
 }
 

@@ -64,6 +64,12 @@
     <Compile Include="forms\Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\Nemocnice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\Nemocnice.Designer.cs">
+      <DependentUpon>Nemocnice.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\PridajPacienta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <Compile Include="tests\Tests.cs" />
     <EmbeddedResource Include="forms\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\Nemocnice.resx">
+      <DependentUpon>Nemocnice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\PridajPacienta.resx">
       <DependentUpon>PridajPacienta.cs</DependentUpon>

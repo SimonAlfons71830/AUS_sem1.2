@@ -1,4 +1,5 @@
-﻿using Hospital_information_sytem.informacny_system;
+﻿using Hospital_information_sytem.forms;
+using Hospital_information_sytem.informacny_system;
 using Hospital_information_sytem.structures;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ using System.Windows.Forms;
 
 namespace Hospital_information_sytem
 {
-    public partial class Form1 : Form
+    public partial class Menu : Form
     {
         protected Informacny_system inf_system;
-        internal Form1(Informacny_system system)
+        internal Menu(Informacny_system system)
         {
             this.inf_system = system;
             InitializeComponent();
@@ -34,14 +35,14 @@ namespace Hospital_information_sytem
         private void button1_Click(object sender, EventArgs e)
         {
             //button na zacatie hospitalizacie
-            var novaHospitalizacia = new Form3(inf_system);
+            var novaHospitalizacia = new ZacniHosp(inf_system);
             novaHospitalizacia.ShowDialog();
             
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var koniecHospitalizacie = new Form4();
+            var koniecHospitalizacie = new UkonciHosp();
             koniecHospitalizacie.ShowDialog();
         }
 
@@ -54,7 +55,7 @@ namespace Hospital_information_sytem
         {
             //pridaj pacienta
 
-            var pridajPacienta = new Form2(inf_system);
+            var pridajPacienta = new PridajPacienta(inf_system);
             pridajPacienta.ShowDialog();
         }
 
@@ -69,7 +70,7 @@ namespace Hospital_information_sytem
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var pridajNemocnicu = new Form5(inf_system);
+            var pridajNemocnicu = new NovaNemocnica(inf_system);
             pridajNemocnicu.ShowDialog();
         }
 
@@ -82,6 +83,17 @@ namespace Hospital_information_sytem
         {
             label2.Text = DateTime.Now.ToLongTimeString();
             timer1.Start();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var zaznamzOpacientovi = new ZvolNemocnicu(inf_system);
+            zaznamzOpacientovi.ShowDialog();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -12,10 +12,10 @@ using System.Windows.Forms;
 
 namespace Hospital_information_sytem
 {
-    public partial class Form3 : Form
+    public partial class ZacniHosp : Form
     {
         public Informacny_system informacny_system;
-        public Form3(Informacny_system informacny_system)
+        public ZacniHosp(Informacny_system informacny_system)
         {
             InitializeComponent();
             this.informacny_system = informacny_system;

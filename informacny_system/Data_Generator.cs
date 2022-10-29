@@ -93,7 +93,8 @@ namespace Hospital_information_sytem.informacny_system
             Hospitalizacia hospitalizacia = new Hospitalizacia();
             hospitalizacia.PridajDiagnozy();
             Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
-            Pacient pac = generovanyPacienti.ElementAt(_random.Next(this.generovanyPacienti.Count));
+            List<Pacient> aktualnyPacientiNemocnice = nem.VratListPacientov();
+            Pacient pac = aktualnyPacientiNemocnice.ElementAt(_random.Next(aktualnyPacientiNemocnice.Count));
             
             //RANDOM DATE OD NARODENIA PACIENTA AZ PO DNES NA ZACATIE HOSPITALIZACIE
             DateTime start = new DateTime(pac.datum_narodenia.Year, pac.datum_narodenia.Month, pac.datum_narodenia.Day);

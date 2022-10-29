@@ -1,6 +1,6 @@
 ﻿namespace Hospital_information_sytem
 {
-    partial class Form3
+    partial class ZacniHosp
     {
         /// <summary>
         /// Required designer variable.

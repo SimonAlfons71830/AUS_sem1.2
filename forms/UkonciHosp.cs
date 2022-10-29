@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Hospital_information_sytem
 {
-    public partial class Form4 : Form
+    public partial class UkonciHosp : Form
     {
-        public Form4()
+        public UkonciHosp()
         {
             InitializeComponent();
         }
@@ -24,6 +24,11 @@ namespace Hospital_information_sytem
             {
                 this.Close();
             }
+        }
+
+        private void UkonciHosp_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

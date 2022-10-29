@@ -49,6 +49,7 @@ namespace Hospital_information_sytem.informacny_system
             return this.hospitalizaciePacienta;
         }
 
+        
 
 
 

@@ -1,6 +1,6 @@
 ﻿namespace Hospital_information_sytem
 {
-    partial class Form4
+    partial class UkonciHosp
     {
         /// <summary>
         /// Required designer variable.
@@ -102,7 +102,7 @@
             this.textBox1.Size = new System.Drawing.Size(245, 22);
             this.textBox1.TabIndex = 16;
             // 
-            // Form4
+            // UkonciHosp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -114,8 +114,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label4);
-            this.Name = "Form4";
+            this.Name = "UkonciHosp";
             this.Text = "Form4";
+            this.Load += new System.EventHandler(this.UkonciHosp_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

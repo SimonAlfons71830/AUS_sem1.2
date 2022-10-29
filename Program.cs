@@ -30,7 +30,7 @@ namespace Hospital_information_sytem
             {
                 generator.GenerujPacientaVPoistenca(inf_system);
             }
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 1000; i++)
             {
                     generator.GenerujHospitalizaciu(inf_system);
             }
@@ -41,7 +41,7 @@ namespace Hospital_information_sytem
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(inf_system));
+            Application.Run(new Menu(inf_system));
 
             /*Tests test = new Tests();
 

@@ -32,8 +32,16 @@ namespace Hospital_information_sytem.informacny_system
         public Pacient NajdiPacient(String rod_cislo)
         {
             if (rod_cislo == string.Empty) { return null; }
-            var pom = pacienti.FindNode(rod_cislo).Data;
-            if (pom == null) { return null; } else { return pom; }
+            if (pacienti.FindNode(rod_cislo) == null)
+            {
+                return null;
+            }
+            else
+            {
+                var pom = pacienti.FindNode(rod_cislo).Data;
+                return pom;
+            }
+            
         }
 
         public List<Pacient> VratListPacientov()

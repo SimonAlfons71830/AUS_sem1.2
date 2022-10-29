@@ -1,6 +1,6 @@
 ﻿namespace Hospital_information_sytem
 {
-    partial class Form2
+    partial class PridajPacienta
     {
         /// <summary>
         /// Required designer variable.

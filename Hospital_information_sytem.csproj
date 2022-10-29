@@ -58,35 +58,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="forms\Form1.cs">
+    <Compile Include="forms\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="forms\Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Form2.cs">
+    <Compile Include="forms\PridajPacienta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="forms\PridajPacienta.Designer.cs">
+      <DependentUpon>PridajPacienta.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Form3.cs">
+    <Compile Include="forms\UdajeOPacientovi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <Compile Include="forms\UdajeOPacientovi.Designer.cs">
+      <DependentUpon>UdajeOPacientovi.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Form4.cs">
+    <Compile Include="forms\ZacniHosp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Form4.Designer.cs">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <Compile Include="forms\ZacniHosp.Designer.cs">
+      <DependentUpon>ZacniHosp.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Form5.cs">
+    <Compile Include="forms\UkonciHosp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Form5.Designer.cs">
-      <DependentUpon>Form5.cs</DependentUpon>
+    <Compile Include="forms\UkonciHosp.Designer.cs">
+      <DependentUpon>UkonciHosp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\NovaNemocnica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\NovaNemocnica.Designer.cs">
+      <DependentUpon>NovaNemocnica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ZvolNemocnicu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ZvolNemocnicu.Designer.cs">
+      <DependentUpon>ZvolNemocnicu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ZadajRC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ZadajRC.Designer.cs">
+      <DependentUpon>ZadajRC.cs</DependentUpon>
     </Compile>
     <Compile Include="informacny_system\Data_Generator.cs" />
     <Compile Include="informacny_system\Hospitalizacia.cs" />
@@ -101,20 +119,29 @@
     <Compile Include="structures\Node.cs" />
     <Compile Include="tests\Printer.cs" />
     <Compile Include="tests\Tests.cs" />
-    <EmbeddedResource Include="forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="forms\Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="forms\PridajPacienta.resx">
+      <DependentUpon>PridajPacienta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Form3.resx">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <EmbeddedResource Include="forms\UdajeOPacientovi.resx">
+      <DependentUpon>UdajeOPacientovi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Form4.resx">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <EmbeddedResource Include="forms\ZacniHosp.resx">
+      <DependentUpon>ZacniHosp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Form5.resx">
-      <DependentUpon>Form5.cs</DependentUpon>
+    <EmbeddedResource Include="forms\UkonciHosp.resx">
+      <DependentUpon>UkonciHosp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\NovaNemocnica.resx">
+      <DependentUpon>NovaNemocnica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ZvolNemocnicu.resx">
+      <DependentUpon>ZvolNemocnicu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ZadajRC.resx">
+      <DependentUpon>ZadajRC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -44,6 +44,37 @@ namespace Hospital_information_sytem.informacny_system
             
         }
 
+        public List<Pacient> NajdiPacientaPodlaMeno(String priezvisko, String meno)
+        {
+            if (priezvisko == string.Empty && meno == String.Empty) { return null; }
+            List<Pacient> listPac = this.VratListPacientov();
+            List<Pacient> najdeniPac = new List<Pacient>();
+            if (listPac.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                for (int i = 0; i < listPac.Count; i++)
+                {
+                    if (listPac.ElementAt(i).priezvisko == priezvisko && listPac.ElementAt(i).meno == meno)
+                    {
+                        var pac = listPac.ElementAt(i);
+                        najdeniPac.Add(pac);
+                    }
+                }
+                if (najdeniPac.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return najdeniPac;
+                }
+            }
+        }
+
+
         public List<Pacient> VratListPacientov()
         {
             return this.pacienti.ZapisVsetkyNody(pacienti.Root);
@@ -67,6 +98,28 @@ namespace Hospital_information_sytem.informacny_system
             }
             return true;
         }
+
+       /* public bool PridajHospitalizaciuPriMazaniNemocnice(List<Hospitalizacia> list)
+        {
+            if (list.Count == 0)
+            {
+                return false;
+            }
+            hospitalizacie.ZapisMedianDoQueueList(list);
+            Hospitalizacia hospitalizacia = new Hospitalizacia();
+            hospitalizacia.id_hospitalizacie = id_hospitalizacie;
+            hospitalizacia.rod_cislo_pacienta = rod_cislo;
+            hospitalizacia.datum_od = dat_od;
+            hospitalizacia.nazov_diagnozy = nazov_diagnozy;
+            var pom = this.hospitalizacie.Insert(id_hospitalizacie, hospitalizacia);
+            if (pom == null)
+            {
+                return false;
+            }
+            return true;
+        }
+*/
+
         public Hospitalizacia NajdiHospitalizaciu(String id_hospitalizacie)
         {
             if (id_hospitalizacie == string.Empty) { return null; }

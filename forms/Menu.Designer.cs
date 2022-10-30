@@ -42,10 +42,13 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button7 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.button8 = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -169,13 +172,14 @@
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(339, 56);
             this.button7.TabIndex = 6;
-            this.button7.Text = "Záznamy o pacientovi";
+            this.button7.Text = "Záznamy o pacientovi (rc)";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panel1.Controls.Add(this.button10);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.button7);
@@ -183,15 +187,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(339, 712);
             this.panel1.TabIndex = 10;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(58)))));
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(339, 100);
-            this.panel2.TabIndex = 0;
             // 
             // button8
             // 
@@ -203,6 +198,38 @@
             this.button8.Text = "Nemocnice";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(58)))));
+            this.panel2.Controls.Add(this.button9);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(339, 100);
+            this.panel2.TabIndex = 0;
+            // 
+            // button9
+            // 
+            this.button9.Font = new System.Drawing.Font("Bookman Old Style", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button9.Location = new System.Drawing.Point(0, 35);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(339, 56);
+            this.button9.TabIndex = 12;
+            this.button9.Text = "Záznamy o pacientovi (meno)";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Font = new System.Drawing.Font("Bookman Old Style", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button10.Location = new System.Drawing.Point(0, 221);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(339, 56);
+            this.button10.TabIndex = 12;
+            this.button10.Text = "Zruš Nemocnicu";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // Menu
             // 
@@ -220,6 +247,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,6 +269,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
     }
 }
 

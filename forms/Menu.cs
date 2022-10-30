@@ -102,6 +102,18 @@ namespace Hospital_information_sytem
             var zoznamNemocnic = new Nemocnice(inf_system);
             zoznamNemocnic.ShowDialog();
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            var zaznamOPacientoch = new ZvolNemocnicuAMenoP(inf_system);
+            zaznamOPacientoch.ShowDialog();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            var zrusNemocnicu = new ZrusNemocnicu(inf_system);
+            zrusNemocnicu.ShowDialog();
+        }
     }
 
 

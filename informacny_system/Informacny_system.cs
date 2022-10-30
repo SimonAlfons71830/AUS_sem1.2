@@ -72,7 +72,11 @@ namespace Hospital_information_sytem.structures
             return this.databaza_poistovni.ZapisVsetkyNody(databaza_poistovni.Root);
         }
 
-       
+       public bool VymazNemocnicu(Nemocnica nemocnica)
+        {
+            this.databaza_nemocnic.ExtractNodee(this.databaza_nemocnic.FindNode(nemocnica.nazov_nemocnice));
+            return true;
+        }
 
     }
     

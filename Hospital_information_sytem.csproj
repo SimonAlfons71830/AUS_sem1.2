@@ -76,6 +76,12 @@
     <Compile Include="forms\PridajPacienta.Designer.cs">
       <DependentUpon>PridajPacienta.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\UdajeOPacientochMeno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\UdajeOPacientochMeno.Designer.cs">
+      <DependentUpon>UdajeOPacientochMeno.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\UdajeOPacientovi.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,12 @@
     <Compile Include="forms\NovaNemocnica.Designer.cs">
       <DependentUpon>NovaNemocnica.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\ZrusNemocnicu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ZrusNemocnicu.Designer.cs">
+      <DependentUpon>ZrusNemocnicu.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\ZvolNemocnicu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +123,12 @@
     </Compile>
     <Compile Include="forms\ZadajRC.Designer.cs">
       <DependentUpon>ZadajRC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ZvolNemocnicuAMenoP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ZvolNemocnicuAMenoP.Designer.cs">
+      <DependentUpon>ZvolNemocnicuAMenoP.cs</DependentUpon>
     </Compile>
     <Compile Include="informacny_system\Data_Generator.cs" />
     <Compile Include="informacny_system\Hospitalizacia.cs" />
@@ -134,6 +152,9 @@
     <EmbeddedResource Include="forms\PridajPacienta.resx">
       <DependentUpon>PridajPacienta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\UdajeOPacientochMeno.resx">
+      <DependentUpon>UdajeOPacientochMeno.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="forms\UdajeOPacientovi.resx">
       <DependentUpon>UdajeOPacientovi.cs</DependentUpon>
     </EmbeddedResource>
@@ -146,11 +167,17 @@
     <EmbeddedResource Include="forms\NovaNemocnica.resx">
       <DependentUpon>NovaNemocnica.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\ZrusNemocnicu.resx">
+      <DependentUpon>ZrusNemocnicu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="forms\ZvolNemocnicu.resx">
       <DependentUpon>ZvolNemocnicu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ZadajRC.resx">
       <DependentUpon>ZadajRC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ZvolNemocnicuAMenoP.resx">
+      <DependentUpon>ZvolNemocnicuAMenoP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

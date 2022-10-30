@@ -72,5 +72,10 @@ namespace Hospital_information_sytem.forms
                 comboBox1.Items.Add(nemocnice[i].nazov_nemocnice);
             }
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

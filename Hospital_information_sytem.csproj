@@ -58,6 +58,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="forms\AktualneHospitalizovani1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\AktualneHospitalizovani1.Designer.cs">
+      <DependentUpon>AktualneHospitalizovani1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Hospitalizovani8.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\Hospitalizovani8.Designer.cs">
+      <DependentUpon>Hospitalizovani8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Hospitalizovani9.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\Hospitalizovani9.Designer.cs">
+      <DependentUpon>Hospitalizovani9.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +148,12 @@
     <Compile Include="forms\ZvolNemocnicuAMenoP.Designer.cs">
       <DependentUpon>ZvolNemocnicuAMenoP.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\ZvolOdDoANemocnicu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ZvolOdDoANemocnicu.Designer.cs">
+      <DependentUpon>ZvolOdDoANemocnicu.cs</DependentUpon>
+    </Compile>
     <Compile Include="informacny_system\Data_Generator.cs" />
     <Compile Include="informacny_system\Hospitalizacia.cs" />
     <Compile Include="informacny_system\Nemocnica.cs" />
@@ -143,6 +167,15 @@
     <Compile Include="structures\Node.cs" />
     <Compile Include="tests\Printer.cs" />
     <Compile Include="tests\Tests.cs" />
+    <EmbeddedResource Include="forms\AktualneHospitalizovani1.resx">
+      <DependentUpon>AktualneHospitalizovani1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\Hospitalizovani8.resx">
+      <DependentUpon>Hospitalizovani8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\Hospitalizovani9.resx">
+      <DependentUpon>Hospitalizovani9.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="forms\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ZvolNemocnicuAMenoP.resx">
       <DependentUpon>ZvolNemocnicuAMenoP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ZvolOdDoANemocnicu.resx">
+      <DependentUpon>ZvolOdDoANemocnicu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

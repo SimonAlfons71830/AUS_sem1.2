@@ -114,6 +114,18 @@ namespace Hospital_information_sytem
             var zrusNemocnicu = new ZrusNemocnicu(inf_system);
             zrusNemocnicu.ShowDialog();
         }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            var aktualneHops = new AktualneHospitalizovani1(this.inf_system);
+            aktualneHops.ShowDialog();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            var zvolHospOdDo = new ZvolOdDoANemocnicu(this.inf_system);
+            zvolHospOdDo.ShowDialog();
+        }
     }
 
 

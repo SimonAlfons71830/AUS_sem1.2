@@ -47,7 +47,7 @@ namespace Hospital_information_sytem.informacny_system
             String zaLomkou = _random.Next(0, 9999).ToString("D4");
 
             pacient.rod_cislo= rok + mesiacc + den + zaLomkou;
-            int kod = _random.Next(1, 3);
+            int kod = _random.Next(1, 4);
             if (kod == 1)
             {
                 pacient.kod_poistovne = "VZP";
@@ -103,7 +103,7 @@ namespace Hospital_information_sytem.informacny_system
                 
                 if (posledna.datum_do.Year == 0001)
                 {
-                    this.UkonciHospitalizaciuPacienta(pac);
+                    this.UkonciHospitalizaciuPacienta(pac, nem);
                     return;
                 }
                 else
@@ -117,7 +117,7 @@ namespace Hospital_information_sytem.informacny_system
                 //RANDOM DATE OD NARODENIA PACIENTA AZ PO DNES NA ZACATIE HOSPITALIZACIE
                 start = new DateTime(pac.datum_narodenia.Year, pac.datum_narodenia.Month, pac.datum_narodenia.Day);
             }
-
+           
             int range = (DateTime.Today - start).Days;
             if(range <= 0) 
             { 
@@ -155,14 +155,24 @@ namespace Hospital_information_sytem.informacny_system
             this.aktivneHosp.Add(id_hospitalizacie);
         }
 
-        public void UkonciHospitalizaciuPacienta(Pacient pacient) 
+        public void UkonciHospitalizaciuPacienta(Pacient pacient, Nemocnica nemocnica) 
         {
             Hospitalizacia hosp = pacient.VratListHospitalizacii().Last();
+            List<Hospitalizacia> hospNemoList = nemocnica.VratListHospitalizacii();
+            Hospitalizacia hospNem = new Hospitalizacia();
+            for (int i = 0; i < hospNemoList.Count; i++)
+            {
+                if (hospNemoList.ElementAt(i).rod_cislo_pacienta == pacient.rod_cislo)
+                {
+                    hospNem = hospNemoList.ElementAt(i);
+                }
+            }
             DateTime koniec;
             koniec = new DateTime(hosp.datum_od.Year, hosp.datum_od.Month, hosp.datum_od.Day);
             int range = (DateTime.Today - koniec).Days;
             var randDat = koniec.AddDays(_random.Next(range));
             hosp.datum_do = randDat;
+            hospNem.datum_do = randDat;
             this.aktivneHosp.Remove(hosp.id_hospitalizacie);
         }
         

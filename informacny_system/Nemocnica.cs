@@ -132,6 +132,67 @@ namespace Hospital_information_sytem.informacny_system
             return this.hospitalizacie.ZapisVsetkyNody(hospitalizacie.Root);
         }
 
+        public List<Node<String, Pacient>> VratMazanychPacientovAkoListNodov() 
+        {
+            List<Pacient> listRusenychPacientov =this.VratListPacientov();
+            List<Node<String, Pacient>> listNodovPac= new List<Node<string, Pacient>>();
+
+            for (int i = 0; i < listRusenychPacientov.Count; i++)
+            {
+                Node<String, Pacient> nodePacient = this.pacienti.FindNode(listRusenychPacientov.ElementAt(i).rod_cislo);
+                listNodovPac.Add(nodePacient);
+            }
+
+            return listNodovPac;
+        }
+
+        public List<Node<String, Hospitalizacia>> VratMazaneHospitalizacieAkoListNodov() 
+        {
+            List<Hospitalizacia> listRusenychHospitalizacii = this.VratListHospitalizacii();
+            List<Node<String, Hospitalizacia>> listNodovHsop = new List<Node<string, Hospitalizacia>>();
+
+            for (int i = 0; i < listRusenychHospitalizacii.Count; i++)
+            {
+                Node<String, Hospitalizacia> nodeHospitalizacie = this.hospitalizacie.FindNode(listRusenychHospitalizacii.ElementAt(i).id_hospitalizacie);
+                listNodovHsop.Add(nodeHospitalizacie);
+            }
+
+            return listNodovHsop;
+        }
+
+        public void HromadnyInsertPacientov(List<Node<String,Pacient>> listPacientov) 
+        {
+            this.pacienti.ZapisMedianDoQueueList(listPacientov);
+
+        }
+
+        public void HromadnyInsertHospitalizacii(List<Node<String, Hospitalizacia>> listHospitalizacii)
+        {
+            this.hospitalizacie.ZapisMedianDoQueueList(listHospitalizacii);
+        }
+        public void Optimalizuj() 
+        {
+            this.pacienti.Vyvaz(pacienti.Root);
+            this.hospitalizacie.Vyvaz(hospitalizacie.Root);
+        }
+
+        public List<Pacient> VratListPacientovHospVMesiac(DateTime mesiacArok) 
+        {
+            List<Pacient> pacientiHospitalizovaniVDanyMesiac = new List<Pacient>();
+            List<Pacient> listPacientovTejtoNemocnice = this.VratListPacientov();
+            for (int i = 0; i < listPacientovTejtoNemocnice.Count; i++)
+            {
+                if (listPacientovTejtoNemocnice.ElementAt(i).BolHospitalizovanyTentoMesiac(mesiacArok))
+                {
+                    pacientiHospitalizovaniVDanyMesiac.Add(listPacientovTejtoNemocnice.ElementAt(i));
+                }
+            }
+            return pacientiHospitalizovaniVDanyMesiac;
+
+        }
+
+
+
 
 
 

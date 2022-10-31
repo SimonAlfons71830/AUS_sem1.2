@@ -50,6 +50,25 @@ namespace Hospital_information_sytem.informacny_system
             return hospitalizacieZoradene;
         }
 
+        public bool BolHospitalizovanyTentoMesiac(DateTime mesiacArok) 
+        {
+            List<Hospitalizacia> pacientovehosp = this.VratListHospitalizacii();
+
+            for (int i = 0; i < pacientovehosp.Count; i++)
+            {
+                if ((pacientovehosp.ElementAt(i).datum_od.Month == mesiacArok.Month && pacientovehosp.ElementAt(i).datum_od.Year == mesiacArok.Year) ||
+                    (pacientovehosp.ElementAt(i).datum_do.Month == mesiacArok.Month && pacientovehosp.ElementAt(i).datum_do.Year == mesiacArok.Year))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+            return false; // ak to cele prejde a nenajde tak by to malo byt false
+        }
         
 
 

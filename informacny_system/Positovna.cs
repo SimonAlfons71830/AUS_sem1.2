@@ -48,7 +48,10 @@ namespace Hospital_information_sytem.informacny_system
             return this.poistenci.ZapisVsetkyNody(poistenci.Root);
         }
 
-
+        public void Optimalizuj()
+        {
+            this.poistenci.Vyvaz(poistenci.Root);
+        }
 
     }
 }

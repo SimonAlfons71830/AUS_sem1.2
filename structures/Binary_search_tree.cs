@@ -815,7 +815,12 @@ namespace Hospital_information_sytem.structures
                 }
             return inOrderList2;
         }
-    
+        public void Vyvaz(Node<K,T> root) 
+        {
+            this.Degeneruj(root);
+            this.VyvazZdegenerovanyStrom(root);
+            this.UplneVyvaz(root);
+        }
     
     }
 }

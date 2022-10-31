@@ -23,26 +23,30 @@ namespace Hospital_information_sytem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String rod_cislo = textBox1.Text;
-            DateTime dat_do = dateTimePicker1.Value;
+            //String rod_cislo = textBox1.Text;
+            //DateTime dat_do = dateTimePicker1.Value;
             Nemocnica nemocnica = this.informacny_system.NajdiNemocnicu(comboBox2.Text);
-            Pacient pacient = nemocnica.NajdiPacient(rod_cislo);
+            Pacient pacient = nemocnica.NajdiPacient(textBox1.Text);
+            
             DialogResult dr = MessageBox.Show("Ukončiť hospitalizáciu?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             List<Hospitalizacia> listHospPac = pacient.VratListHospitalizacii();
             var poslednaHosp = listHospPac.Last();
             if (dr == DialogResult.Yes)
             {
-                if (rod_cislo != String.Empty && dat_do != null)
+                if (textBox1.Text != String.Empty && dateTimePicker1.Value != null)
                 {
                     if (nemocnica != null && pacient != null)
                     {
-                        var pom = nemocnica.NajdiPacient(rod_cislo).NajdiHospitalizaciu(poslednaHosp);
+                        //var pom = nemocnica.NajdiPacient(rod_cislo).NajdiHospitalizaciu(poslednaHosp);
+                        //var pomNemocnica = nemocnica.NajdiHospitalizaciu(poslednaHosp.id_hospitalizacie);
+                        var pom = nemocnica.NajdiPacient(textBox1.Text).NajdiHospitalizaciu(poslednaHosp);
                         var pomNemocnica = nemocnica.NajdiHospitalizaciu(poslednaHosp.id_hospitalizacie);
+
                         if (pom.datum_do.Year == 0001 && pomNemocnica.datum_do.Year == 0001)
                         {
                             //this.informacny_system.NajdiNemocnicu(nemocnica.nazov_nemocnice).NajdiPacient(pacient.rod_cislo).NajdiHospitalizaciu(pom).datum_do = dat_do;
-                            pom.datum_do = dat_do;
-                            pomNemocnica.datum_do = dat_do;
+                            pom.datum_do = dateTimePicker1.Value;
+                            pomNemocnica.datum_do = dateTimePicker1.Value;
                             MessageBox.Show("Hospitalizacia bola ukončená.");
                         }
                         else

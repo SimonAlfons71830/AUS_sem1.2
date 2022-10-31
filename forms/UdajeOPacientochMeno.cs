@@ -37,6 +37,7 @@ namespace Hospital_information_sytem.forms
                 item.SubItems.Add(pacienti.ElementAt(i).VratListHospitalizacii().Count.ToString());
                 listView1.Items.Add(item);
             }
+            label2.Text = pacienti.Count.ToString();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -49,6 +50,11 @@ namespace Hospital_information_sytem.forms
             }
             
             
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

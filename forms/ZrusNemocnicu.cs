@@ -100,11 +100,17 @@ namespace Hospital_information_sytem.forms
             DialogResult dr = MessageBox.Show("Chcete vymazat nemocnicu?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
-                List<Pacient> listRusenychPacientov = this.inf_system.NajdiNemocnicu(comboBox1.Text).VratListPacientov();
-                List<Hospitalizacia> listRusenychHospitalizacii = this.inf_system.NajdiNemocnicu(comboBox1.Text).VratListHospitalizacii();
-
                 Nemocnica nahradna = this.inf_system.NajdiNemocnicu(comboBox2.Text);
-                for (int i = 0; i < listRusenychHospitalizacii.Count; i++)
+                Nemocnica rusena = this.inf_system.NajdiNemocnicu(comboBox1.Text);
+
+                List<Node<String, Hospitalizacia>> listRusenychHosp = rusena.VratMazaneHospitalizacieAkoListNodov(); ;
+                List<Node<String, Pacient>> listRusenychPac = rusena.VratMazanychPacientovAkoListNodov();
+
+                nahradna.HromadnyInsertHospitalizacii(listRusenychHosp);
+                nahradna.HromadnyInsertPacientov(listRusenychPac);
+
+
+                /*for (int i = 0; i < listRusenychHospitalizacii.Count; i++)
                 {
                     nahradna.PridajHospitalizaciu(listRusenychHospitalizacii.ElementAt(i).id_hospitalizacie, 
                         listRusenychHospitalizacii.ElementAt(i).rod_cislo_pacienta,
@@ -119,7 +125,7 @@ namespace Hospital_information_sytem.forms
                         listRusenychPacientov.ElementAt(i).datum_narodenia,
                         listRusenychPacientov.ElementAt(i).kod_poistovne,
                         nahradna.nazov_nemocnice);
-                }
+                }*/
 
 
                 if (this.inf_system.VymazNemocnicu(this.inf_system.NajdiNemocnicu(comboBox1.Text)))

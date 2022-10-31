@@ -28,12 +28,13 @@ namespace Hospital_information_sytem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String rod_cislo = textBox1.Text;
-            DateTime dat_od = dateTimePicker1.Value;
-            String id_hospitalizacie = dat_od.Day.ToString() + dat_od.Month.ToString() + dat_od.Year.ToString() + rod_cislo; //91220220055114312
-            String nazov_diagnozy = comboBox1.Text;
+            //String rod_cislo = textBox1.Text;
+            //DateTime dat_od = dateTimePicker1.Value;
+            String id_hospitalizacie = dateTimePicker1.Value.Day.ToString() + dateTimePicker1.Value.Month.ToString() 
+                + dateTimePicker1.Value.Year.ToString() + textBox1.Text; 
+            //String nazov_diagnozy = comboBox1.Text;
             Nemocnica nemocnica = this.informacny_system.NajdiNemocnicu(comboBox2.Text);
-            Pacient pacient = nemocnica.NajdiPacient(rod_cislo);
+            Pacient pacient = nemocnica.NajdiPacient(textBox1.Text);
             
             
 
@@ -41,12 +42,14 @@ namespace Hospital_information_sytem
             DialogResult dr = MessageBox.Show("Začať hospitalizáciu?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
-                if (rod_cislo != String.Empty && id_hospitalizacie != string.Empty && dat_od != null)
+                if (textBox1.Text != String.Empty && id_hospitalizacie != string.Empty && dateTimePicker1.Value != null)
                 {
                     if (nemocnica != null && pacient != null)
                     {
-                        var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, rod_cislo, dat_od, nazov_diagnozy);
-                        var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, rod_cislo, dat_od, nazov_diagnozy);
+                        //var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, rod_cislo, dat_od, nazov_diagnozy);
+                        // var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, rod_cislo, dat_od, nazov_diagnozy);
+                        var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
+                        var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
                         if (pom && pomPac)
                         {
                             MessageBox.Show("Hospitalizacia bola zaevidovana.");

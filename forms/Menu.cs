@@ -126,6 +126,17 @@ namespace Hospital_information_sytem
             var zvolHospOdDo = new ZvolOdDoANemocnicu(this.inf_system);
             zvolHospOdDo.ShowDialog();
         }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            this.inf_system.Oprimalizuj();
+            MessageBox.Show("Optimalizacia dokoncena.");
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

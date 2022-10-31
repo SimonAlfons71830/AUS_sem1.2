@@ -78,7 +78,7 @@ namespace Hospital_information_sytem.forms
 
             Nemocnica nemocnica = this.inf_system.NajdiNemocnicu(comboBox1.Text);
             List<Pacient> listAktualneHospPacientov = new List<Pacient>();
-            List<Pacient> listVsetkychPacientov = nemocnica.VratListPacientov();
+            /* List<Pacient> listVsetkychPacientov = nemocnica.VratListPacientov();
 
             for (int i = 0; i < listVsetkychPacientov.Count; i++)
             {
@@ -87,9 +87,9 @@ namespace Hospital_information_sytem.forms
                 {
                     listAktualneHospPacientov.Add(listVsetkychPacientov.ElementAt(i));
                 }
-            }
-
+            }*/
             
+            listAktualneHospPacientov = this.inf_system.VratAktualneHospitalizovanychPacientov(nemocnica);
 
 
 
@@ -117,13 +117,16 @@ namespace Hospital_information_sytem.forms
             {
                 List<Pacient> listAktualneHospPacientovPOISTOVNA = new List<Pacient>();
 
-                for (int i = 0; i < listAktualneHospPacientov.Count; i++)
+                /*for (int i = 0; i < listAktualneHospPacientov.Count; i++)
                 {
                     if (listAktualneHospPacientov.ElementAt(i).kod_poistovne == this.kod)
                     {
                         listAktualneHospPacientovPOISTOVNA.Add(listAktualneHospPacientov.ElementAt(i));
                     }
-                }
+                }*/
+
+                listAktualneHospPacientovPOISTOVNA = this.inf_system.VratAktualneHospitalizovanychPacientovPodlaPoistovne(this.kod, listAktualneHospPacientov);
+
                 if (checkBox2.Checked)
                 {
                     List<Pacient> zoradenyy = listAktualneHospPacientovPOISTOVNA.OrderBy(o => o.datum_narodenia).ToList();

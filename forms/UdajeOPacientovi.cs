@@ -57,7 +57,7 @@ namespace Hospital_information_sytem.forms
                 item.SubItems.Add(hospitalizacie.ElementAt(i).nazov_diagnozy);
                 listView1.Items.Add(item);
             }
-
+            label8.Text = hospitalizacie.Count.ToString();
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -82,6 +82,11 @@ namespace Hospital_information_sytem.forms
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {  
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

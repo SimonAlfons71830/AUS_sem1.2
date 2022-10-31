@@ -109,7 +109,7 @@ namespace Hospital_information_sytem.informacny_system
                 else
                 {
                     start = new DateTime(posledna.datum_do.Year,
-                        posledna.datum_do.Month, posledna.datum_do.Day);
+                        posledna.datum_do.Month, posledna.datum_do.Day).AddDays(1); //prida jeden den aby hospitalizacie nezacinali v ten isty den ako skoncia 
                 }
             }
             else //pacientoveHospitalizacie.Count == 0
@@ -119,7 +119,7 @@ namespace Hospital_information_sytem.informacny_system
             }
            
             int range = (DateTime.Today - start).Days;
-            if(range <= 0) 
+            if(range < 0) 
             { 
                 range =+ 2; 
             }
@@ -169,8 +169,13 @@ namespace Hospital_information_sytem.informacny_system
             }
             DateTime koniec;
             koniec = new DateTime(hosp.datum_od.Year, hosp.datum_od.Month, hosp.datum_od.Day);
-            int range = (DateTime.Today - koniec).Days;
-            var randDat = koniec.AddDays(_random.Next(range));
+            //int range = (DateTime.Today - koniec).Days;
+            //3-14 dni moze trvat hospitalizacia
+            var randDat = koniec.AddDays(_random.Next(3,15));
+            if (randDat >= DateTime.Today)
+            {
+                return;
+            }
             hosp.datum_do = randDat;
             hospNem.datum_do = randDat;
             this.aktivneHosp.Remove(hosp.id_hospitalizacie);

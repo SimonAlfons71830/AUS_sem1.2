@@ -42,12 +42,12 @@ namespace Hospital_information_sytem.forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String meno = textBox1.Text;
-            String priezvisko = textBox2.Text;
+            //String meno = textBox1.Text;
+            //String priezvisko = textBox2.Text;
             
 
             Nemocnica nem = this.inf_system.NajdiNemocnicu(comboBox1.Text);
-            List<Pacient> pac = nem.NajdiPacientaPodlaMeno(priezvisko, meno);
+            List<Pacient> pac = nem.NajdiPacientaPodlaMeno(textBox2.Text, textBox1.Text);
 
             if (pac != null)
             {

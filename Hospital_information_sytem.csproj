@@ -64,18 +64,6 @@
     <Compile Include="forms\AktualneHospitalizovani1.Designer.cs">
       <DependentUpon>AktualneHospitalizovani1.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Hospitalizovani8.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="forms\Hospitalizovani8.Designer.cs">
-      <DependentUpon>Hospitalizovani8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="forms\Hospitalizovani9.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="forms\Hospitalizovani9.Designer.cs">
-      <DependentUpon>Hospitalizovani9.cs</DependentUpon>
-    </Compile>
     <Compile Include="forms\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +118,12 @@
     <Compile Include="forms\ZrusNemocnicu.Designer.cs">
       <DependentUpon>ZrusNemocnicu.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\ZvolMesiacARokNaFakturu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ZvolMesiacARokNaFakturu.Designer.cs">
+      <DependentUpon>ZvolMesiacARokNaFakturu.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\ZvolNemocnicu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,12 +164,6 @@
     <EmbeddedResource Include="forms\AktualneHospitalizovani1.resx">
       <DependentUpon>AktualneHospitalizovani1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Hospitalizovani8.resx">
-      <DependentUpon>Hospitalizovani8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="forms\Hospitalizovani9.resx">
-      <DependentUpon>Hospitalizovani9.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="forms\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
@@ -202,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ZrusNemocnicu.resx">
       <DependentUpon>ZrusNemocnicu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ZvolMesiacARokNaFakturu.resx">
+      <DependentUpon>ZvolMesiacARokNaFakturu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ZvolNemocnicu.resx">
       <DependentUpon>ZvolNemocnicu.cs</DependentUpon>

@@ -159,6 +159,22 @@ namespace Hospital_information_sytem.structures
             return pacientiPodlaPoistovne;
 
         }
+        public Nemocnica NajdiNemocnicuPacientovi(String rodCislo) 
+        {
+            List<Nemocnica> listNemocnic = this.VratListNemocnic();
+            for (int i = 0; i < listNemocnic.Count; i++)
+            {
+                List<Pacient> listPacientovVNemocnici = listNemocnic.ElementAt(i).VratListPacientov();
+                for (int j = 0;  j < listPacientovVNemocnici.Count;  j++)
+                {
+                    if (listPacientovVNemocnici.ElementAt(j).rod_cislo == rodCislo)
+                    {
+                        return listNemocnic.ElementAt(i);
+                    }
+                }
+            }
+            return null;
+        }
 
 
 

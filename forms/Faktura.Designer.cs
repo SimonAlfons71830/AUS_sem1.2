@@ -217,6 +217,7 @@
             this.label6.Size = new System.Drawing.Size(47, 18);
             this.label6.TabIndex = 24;
             this.label6.Text = "label6";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // dateTimePicker1
             // 

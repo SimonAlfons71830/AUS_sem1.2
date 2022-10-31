@@ -56,27 +56,51 @@ namespace Hospital_information_sytem.forms
             }
 
             label5.Text = this.inf_system.NajdiPoistovnu(kod_poistovne).nazov_poistovne;
-            
+            var pocetDni = 0;
 
-            int pom =0 ;
+            var start = new DateTime(this.datum.Year, this.datum.Month, 1);
+            var koniec = new DateTime(this.datum.Year, this.datum.Month, 31);
+            int pom = 0;
+
             for (int i = 0; i < listPacientov.Count; i++)
             {
-                List<Hospitalizacia> pacientoveHosp = listPacientov.ElementAt(i).VratListHospitalizacii();
-                for (int j = 0; j< pacientoveHosp.Count; j++){
-                    if (pacientoveHosp.ElementAt(j).datum_od.Month == datum.Month)
+                List<Hospitalizacia> listhospPac = this.listPacientov.ElementAt(i).VratListHospitalizacii();
+                Hospitalizacia hospitalizacia = new Hospitalizacia();
+                for (int j = 0; j < listhospPac.Count; j++)
+                {
+                    if (listhospPac.ElementAt(j).datum_do.Month == this.datum.Month && listhospPac.ElementAt(j).datum_do.Year == this.datum.Year ||
+                        listhospPac.ElementAt(j).datum_od.Month == this.datum.Month && listhospPac.ElementAt(j).datum_od.Year ==  this.datum.Year)
                     {
-
-                        DateTime koniec = new DateTime(datum.Year, datum.Month, 31);
-                        pom += (koniec - pacientoveHosp.ElementAt(j).datum_od).Days;
-                    }
-                    else
-                    {
-                        DateTime zaciatok = new DateTime(datum.Year, datum.Month, 1);
-                        pom += (pacientoveHosp.ElementAt(j).datum_do - zaciatok).Days;
+                        hospitalizacia = listhospPac.ElementAt(j);
+                        if (hospitalizacia.datum_od >= start && hospitalizacia.datum_do <= koniec && hospitalizacia.datum_do.Year != 0001)
+                        {
+                            pocetDni += (hospitalizacia.datum_do - hospitalizacia.datum_od).Days;
+                        }
+                        else if (hospitalizacia.datum_od <= start && hospitalizacia.datum_do <= koniec && hospitalizacia.datum_do.Year != 0001) //hosp zacala v predosly mesiac a skoncila v dany
+                        {
+                            pocetDni += (hospitalizacia.datum_do - start).Days;
+                        }
+                        else if(hospitalizacia.datum_od >= start && hospitalizacia.datum_do >= koniec) // hosp zacala v dany mesiac ale skoncila buduci
+                        {
+                            pocetDni += (koniec - hospitalizacia.datum_od).Days;
+                        }
+                        else if(hospitalizacia.datum_do.Year == 0001)
+                        {
+                            pocetDni += (koniec - hospitalizacia.datum_od).Days;
+                        }
                     }
                 }
+
+                ListViewItem item = new ListViewItem(listPacientov.ElementAt(i).rod_cislo);
+                item.SubItems.Add(listPacientov.ElementAt(i).priezvisko);
+                item.SubItems.Add(listPacientov.ElementAt(i).meno);
+                item.SubItems.Add(hospitalizacia.nazov_diagnozy);
+                listView1.Items.Add(item);
+                pom++;
             }
-            label2.Text = pom.ToString();
+
+            label2.Text = pocetDni.ToString();
+            label6.Text = pom.ToString(); 
 
         }
 
@@ -86,6 +110,27 @@ namespace Hospital_information_sytem.forms
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                
+                var firstSelectedItem = listView1.SelectedItems[0];
+                Nemocnica nem = this.inf_system.NajdiNemocnicuPacientovi(firstSelectedItem.Text);
+                if (nem != null)
+                {
+                    var zobrazInfo = new UdajeOPacientovi(this.inf_system, nem.nazov_nemocnice, firstSelectedItem.Text);
+                    zobrazInfo.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Nepodarilo sa najst nemocnicu v ktorej je pacient hospitalizovany.");
+                }
+                
+               
+            }
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }

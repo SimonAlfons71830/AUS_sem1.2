@@ -27,7 +27,7 @@ namespace Hospital_information_sytem.informacny_system
             {
                 poistenec.id_poistenca = _random.Next(2000,2999).ToString();
             }
-            if (kod_poistovne == "DVO")
+            if (kod_poistovne == "DOV")
             {
                 poistenec.id_poistenca = _random.Next(3000,3999).ToString();
             }*/

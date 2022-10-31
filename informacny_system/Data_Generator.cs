@@ -57,7 +57,7 @@ namespace Hospital_information_sytem.informacny_system
                 pacient.kod_poistovne = "UNI";
             }
             else if (kod == 3) {
-                pacient.kod_poistovne = "DVO";
+                pacient.kod_poistovne = "DOV";
             }
             List<Nemocnica> nemocnice = inf_system.VratListNemocnic();
             int randNemocnica = _random.Next(nemocnice.Count);

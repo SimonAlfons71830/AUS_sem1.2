@@ -61,11 +61,6 @@ namespace Hospital_information_sytem.informacny_system
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
-                
             }
             return false; // ak to cele prejde a nenajde tak by to malo byt false
         }

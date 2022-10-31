@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Hospital_information_sytem.informacny_system;
+using Hospital_information_sytem.structures;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,11 @@ namespace Hospital_information_sytem.forms
 {
     public partial class ZvolMesiacARokNaFakturu : Form
     {
-        public ZvolMesiacARokNaFakturu()
+        protected Informacny_system inf_system;
+        public ZvolMesiacARokNaFakturu(Informacny_system system)
         {
             InitializeComponent();
+            this.inf_system = system;
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -24,7 +28,10 @@ namespace Hospital_information_sytem.forms
 
         private void button1_Click(object sender, EventArgs e)
         {
+            List<Pacient> pacientiNaFakturaciu = this.inf_system.VsetciPacientiHospVDanyMesiac(dateTimePicker1.Value);
 
+            var zoznamPoistovni = new VypisPoistovniAIchfakturácie(this.inf_system, pacientiNaFakturaciu, dateTimePicker1.Value);
+            zoznamPoistovni.ShowDialog();
         }
     }
 }

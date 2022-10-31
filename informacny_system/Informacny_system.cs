@@ -133,14 +133,32 @@ namespace Hospital_information_sytem.structures
             List<Nemocnica> listNemocnic = this.VratListNemocnic();
             for (int i = 0; i < listNemocnic.Count; i++)
             {
-                if (listNemocnic.ElementAt(i).VratListPacientovHospVMesiac(mesiacArok).Count > 0)
+                List<Pacient> hospPacientov = listNemocnic.ElementAt(i).VratListPacientovHospVMesiac(mesiacArok); 
+                if (hospPacientov.Count > 0)
                 {
-                    vsetciPacientiHospitalizovaniVDanyMesiac.AddRange(listNemocnic.ElementAt(i).VratListPacientovHospVMesiac(mesiacArok));
+                    for (int j = 0; j < hospPacientov.Count; j++)
+                    {
+                        vsetciPacientiHospitalizovaniVDanyMesiac.Add(hospPacientov.ElementAt(j));
+                    }
+                    //vsetciPacientiHospitalizovaniVDanyMesiac.AddRange(listNemocnic.ElementAt(i).VratListPacientovHospVMesiac(mesiacArok));
                 }
             }
             return vsetciPacientiHospitalizovaniVDanyMesiac;
         }
 
+        public List<Pacient> PacientiPodlaPoistovnePreFormular(List<Pacient> listVsetkychPacientovMesiac, String kod_poistovne) 
+        {
+            List<Pacient> pacientiPodlaPoistovne = new List<Pacient>();
+            for (int i = 0; i < listVsetkychPacientovMesiac.Count; i++)
+            {
+                if (listVsetkychPacientovMesiac.ElementAt(i).kod_poistovne == kod_poistovne)
+                {
+                    pacientiPodlaPoistovne.Add(listVsetkychPacientovMesiac.ElementAt(i));
+                }
+            }
+            return pacientiPodlaPoistovne;
+
+        }
 
 
 

@@ -138,6 +138,11 @@ namespace Hospital_information_sytem
             var zvolMesiac = new ZvolMesiacARokNaFakturu(this.inf_system);
             zvolMesiac.ShowDialog();
         }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

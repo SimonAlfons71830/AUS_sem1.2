@@ -29,6 +29,17 @@ namespace Hospital_information_sytem.informacny_system
             this.hospitalizaciePacienta.Add(hospitalizacia);
             return true;
         }
+
+        public bool PridajHosp(Hospitalizacia hosp) 
+        {
+            if (hosp != null)
+            {
+                this.hospitalizaciePacienta.Add(hosp);
+                return true;
+            }
+            return false;
+        }
+
         public Hospitalizacia NajdiHospitalizaciu(Hospitalizacia hospitalizacia)
         {
             if (hospitalizacia == null) { return null; }

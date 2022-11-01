@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,19 @@ namespace Hospital_information_sytem.informacny_system
             this.listDiagnoz.Add("SUBJEKTÍVNE A OBJEKTÍVNE PRÍZNAKY");
             this.listDiagnoz.Add("PORANENIA, OTRAVY");
             this.listDiagnoz.Add("INÉ...");
+        }
+
+        public void LoadDataFromFile() 
+        { 
+            StreamReader reader = new StreamReader("diagnozy.txt.txt");
+            //String size = Convert.ToString(reader.ReadLine());
+            while (!reader.EndOfStream)
+            {
+                this.listDiagnoz.Add(reader.ReadLine());
+            }
+
+            reader.Close();
+
         }
         public List<String> VratListDiagnoz() 
         {

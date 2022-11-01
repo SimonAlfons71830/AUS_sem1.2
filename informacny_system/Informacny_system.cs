@@ -29,6 +29,16 @@ namespace Hospital_information_sytem.structures
             return true;
         }
 
+        public bool RegistrujNemocnicu(Nemocnica nem) 
+        {
+            if (nem != null)
+            {
+                this.databaza_nemocnic.Insert(nem.nazov_nemocnice, nem);
+                return true;
+            }
+            return false;
+        }
+
         public bool PridajPoistovnu()
         {
             Positovna poistovnaVZP = new Positovna();

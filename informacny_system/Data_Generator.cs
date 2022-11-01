@@ -11,11 +11,14 @@ namespace Hospital_information_sytem.informacny_system
 {
     internal class Data_Generator
     {
-        
         private Random _random = new Random();
         List<String> pouziteNazvyNemocnic = new List<string>();
         List<Pacient> generovanyPacienti = new List<Pacient>();
         public List<String> aktivneHosp = new List<String>();
+        Hospitalizacia hospitalizacia1 = new Hospitalizacia();
+
+
+        
 
         public void GenerujPacientaVPoistenca(Informacny_system inf_system) 
         {
@@ -91,7 +94,9 @@ namespace Hospital_information_sytem.informacny_system
         public void GenerujHospitalizaciu(Informacny_system informacny_system)
         {
             Hospitalizacia hospitalizacia = new Hospitalizacia();
-            hospitalizacia.PridajDiagnozy();
+            hospitalizacia.LoadDataFromFile();
+            //hospitalizacia.PridajDiagnozy();
+            //hospitalizacia.LoadDataFromFile();
             Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
             List<Pacient> aktualnyPacientiNemocnice = nem.VratListPacientov();
             Pacient pac = aktualnyPacientiNemocnice.ElementAt(_random.Next(aktualnyPacientiNemocnice.Count));
@@ -154,7 +159,8 @@ namespace Hospital_information_sytem.informacny_system
             pac.PridajHospitalizaciuPacientovi(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
             this.aktivneHosp.Add(id_hospitalizacie);
         }
-
+        
+        
         public void UkonciHospitalizaciuPacienta(Pacient pacient, Nemocnica nemocnica) 
         {
             Hospitalizacia hosp = pacient.VratListHospitalizacii().Last();

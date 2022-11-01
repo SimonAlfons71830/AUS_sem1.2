@@ -59,7 +59,21 @@ namespace Hospital_information_sytem.forms
             var pocetDni = 0;
 
             var start = new DateTime(this.datum.Year, this.datum.Month, 1);
-            var koniec = new DateTime(this.datum.Year, this.datum.Month, 31);
+            var koniec = new DateTime();
+
+            if (this.datum.Month == 1 || this.datum.Month == 3 || this.datum.Month == 5 || this.datum.Month == 7 || this.datum.Month == 8 || this.datum.Month == 10 || this.datum.Month == 12)
+            {
+                koniec = new DateTime(this.datum.Year, this.datum.Month, 31);
+            }
+            else if (this.datum.Month == 2)
+            {
+                koniec = new DateTime(this.datum.Year, this.datum.Month, 28);
+            }
+            else
+            {
+                koniec = new DateTime(this.datum.Year, this.datum.Month, 30);
+            }
+            
             int pom = 0;
 
             for (int i = 0; i < listPacientov.Count; i++)
@@ -100,7 +114,35 @@ namespace Hospital_information_sytem.forms
             }
 
             label2.Text = pocetDni.ToString();
-            label6.Text = pom.ToString(); 
+            label6.Text = pom.ToString();
+
+
+            // SELECT DAY FROM CALENDAR TO SHOW PATIENT HOSPITALIZED THAT DAY
+            monthCalendar1.MaxSelectionCount = 1; //can choose only 1 day
+            var startTime = new DateTime(this.datum.Year, this.datum.Month, 1);
+            DateTime koniecTime;
+            if (this.datum.Month == 1 || this.datum.Month == 3 || this.datum.Month == 5 || this.datum.Month == 7 || this.datum.Month == 8 || this.datum.Month == 10 || this.datum.Month == 12)
+            {
+                koniecTime = new DateTime(this.datum.Year, this.datum.Month, 31);
+            }
+            else if (this.datum.Month == 2)
+            {
+                koniecTime = new DateTime(this.datum.Year, this.datum.Month, 28);
+            }
+            else
+            {
+                koniecTime = new DateTime(this.datum.Year, this.datum.Month, 30);
+            }
+            monthCalendar1.SetSelectionRange(startTime, koniecTime);
+
+            // DateTime denNaZobrazenie = monthCalendar1.;
+            
+            
+
+
+
+
+
 
         }
 
@@ -133,6 +175,68 @@ namespace Hospital_information_sytem.forms
         private void label6_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            //fixnut kalendar len na mesiac ktory bol zadany
+            listView2.Items.Clear();
+            var datumnaVyhladanie =  monthCalendar1.SelectionStart;
+            List<Pacient> list = new List<Pacient>();
+
+            for (int i = 0; i < this.listPacientov.Count; i++)
+            {
+                List <Hospitalizacia> listHospitalizacii = this.listPacientov.ElementAt(i).VratListHospitalizacii();
+                for (int j = 0; j < listHospitalizacii.Count; j++)
+                {
+                    if (listHospitalizacii.ElementAt(j).datum_od <= datumnaVyhladanie && listHospitalizacii.ElementAt(j).datum_do >= datumnaVyhladanie && listHospitalizacii.ElementAt(j).datum_do.Year != 0001 )
+                    {
+                        list.Add(this.listPacientov.ElementAt(i));
+                    }
+                    else if (listHospitalizacii.ElementAt(j).datum_od <= datumnaVyhladanie && listHospitalizacii.ElementAt(j).datum_do.Year == 0001)
+                    {
+                        list.Add(this.listPacientov.ElementAt(i));
+                    }
+                    
+                }
+
+            }
+
+            for (int k = 0; k < list.Count; k++)
+            {
+                ListViewItem item = new ListViewItem(list.ElementAt(k).rod_cislo);
+                item.SubItems.Add(listPacientov.ElementAt(k).priezvisko);
+                item.SubItems.Add(listPacientov.ElementAt(k).meno);
+                if (!listView2.Items.ContainsKey(list.ElementAt(k).rod_cislo))
+                {
+                    listView2.Items.Add(item);
+                }
+                
+                
+            }
+            label8.Text = listView2.Items.Count.ToString();
+            
+        }
+
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count > 0)
+            {
+
+                var firstSelectedItem = listView1.SelectedItems[0];
+                Nemocnica nem = this.inf_system.NajdiNemocnicuPacientovi(firstSelectedItem.Text);
+                if (nem != null)
+                {
+                    var zobrazInfo = new UdajeOPacientovi(this.inf_system, nem.nazov_nemocnice, firstSelectedItem.Text);
+                    zobrazInfo.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Nepodarilo sa najst nemocnicu v ktorej je pacient hospitalizovany.");
+                }
+
+
+            }
         }
     }
 }

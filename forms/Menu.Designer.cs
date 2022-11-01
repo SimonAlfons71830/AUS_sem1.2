@@ -155,6 +155,7 @@
             this.button14.TabIndex = 13;
             this.button14.Text = "Export dát";
             this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button13
             // 

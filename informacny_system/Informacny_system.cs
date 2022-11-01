@@ -1,6 +1,8 @@
 ﻿using Hospital_information_sytem.informacny_system;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -185,6 +187,167 @@ namespace Hospital_information_sytem.structures
             }
             return null;
         }
+
+
+
+
+        public void NacitajSystem()
+        {
+            Nemocnica nem = null;
+            Pacient pacient = null;
+            StreamReader reader = new StreamReader("ExportData.txt");
+            StringBuilder builder = new StringBuilder();
+            List<Pacient> listpac = new List<Pacient>();
+            List<Hospitalizacia> listhosp = new List<Hospitalizacia>();
+            
+            try
+            {
+                string line = "";
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.Contains("Nemocnica"))
+                    {
+                        if (nem != null)
+                        {
+                            List<Node<String, Pacient>> listNodePacNem = new List<Node<string, Pacient>>();
+                            List<Node<String, Hospitalizacia>> listNodeHospNem = new List<Node<string, Hospitalizacia>>();
+                            for (int i = 0; i < listpac.Count; i++)
+                            {
+                                Node<String, Pacient> pac = new Node<String, Pacient>(listpac.ElementAt(i).rod_cislo, listpac.ElementAt(i));
+                                listNodePacNem.Add(pac);
+                            }
+                            for (int i = 0; i < listhosp.Count; i++)
+                            {
+                                Node<String, Hospitalizacia> hos = new Node<String, Hospitalizacia>(listhosp.ElementAt(i).id_hospitalizacie, listhosp.ElementAt(i));
+                                listNodeHospNem.Add(hos);
+                            }
+                            nem.HromadnyInsertPacientov(listNodePacNem);
+                            nem.HromadnyInsertHospitalizacii(listNodeHospNem);
+                            
+
+                            this.databaza_nemocnic.Insert(nem.nazov_nemocnice, nem);
+                        }
+                        nem = new Nemocnica();
+                        nem.nazov_nemocnice = line;
+                        
+                    }
+                    else if (line.Contains(';'))
+                    {
+                        var identifikator = line.Substring(0, line.IndexOf(';'));
+                        var zvysok = line.Remove(0, identifikator.Length + 1); //aby oseklo az po bodkociarku
+                        if (identifikator.Length == 10) //je to pacient
+                        {
+                            Pacient pac = new Pacient();
+                            pac.rod_cislo = identifikator;
+                            pac.meno = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            zvysok = zvysok.Remove(0, pac.meno.Length + 1);
+                            pac.priezvisko = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            zvysok = zvysok.Remove(0, pac.priezvisko.Length + 1);
+                            pac.kod_poistovne = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            zvysok = zvysok.Remove(0, pac.kod_poistovne.Length + 1);
+
+                            pac.datum_narodenia = DateTime.Parse(zvysok.Substring(0, zvysok.Length),new CultureInfo("sk-SK"));
+                            listpac.Add(pac);
+                            //nem.PridajPacienta();
+                            
+                        }
+                        else //hospitalizacia
+                        {
+                            Hospitalizacia hosp = new Hospitalizacia();
+                            hosp.id_hospitalizacie = identifikator;
+                            hosp.rod_cislo_pacienta = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            zvysok = zvysok.Remove(0, hosp.rod_cislo_pacienta.Length + 1);
+
+                            hosp.nazov_diagnozy = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            zvysok = zvysok.Remove(0, hosp.nazov_diagnozy.Length + 1);
+                            var datumod = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            zvysok = zvysok.Remove(0, datumod.Length + 1);
+                            var datumdo = zvysok;
+
+                            hosp.datum_od = DateTime.Parse(datumod, new CultureInfo("sk-SK"));
+                            hosp.datum_do = DateTime.Parse(datumdo, new CultureInfo("sk-SK"));
+                            for (int i = 0; i < listpac.Count; i++)
+                            {
+                                if (listpac.ElementAt(i).rod_cislo == hosp.rod_cislo_pacienta)
+                                {
+                                    listpac.ElementAt(i).PridajHosp(hosp);
+                                }
+                            }
+                            listhosp.Add(hosp);
+                            //pacient.PridajHosp(hosp);
+                            
+                        }
+                    }
+                    builder.AppendLine(line);
+                   
+                }
+                // MOZEM TO ROBIT AJ JEDNOTLIVYM VKLADANIM HOSPITALIZACII A NASLEDNE PACIENTA DO NEMOCNICE - MUSELO BY VEDIET CITAT NASLEDUJUCI RIADOK INAK AKO JE TO TERAZ
+                //insert poslednej
+                List<Node<String, Pacient>> listNodePac = new List<Node<string, Pacient>>();
+                List<Node<String, Hospitalizacia>> listNodeHosp = new List<Node<string, Hospitalizacia>>();
+                for (int i = 0; i < listpac.Count; i++)
+                {
+                    Node<String, Pacient> pac = new Node<String, Pacient>(listpac.ElementAt(i).rod_cislo, listpac.ElementAt(i));
+                    listNodePac.Add(pac);
+                }
+                for (int i = 0; i < listhosp.Count; i++)
+                {
+                    Node<String, Hospitalizacia> hos = new Node<String, Hospitalizacia>(listhosp.ElementAt(i).id_hospitalizacie, listhosp.ElementAt(i));
+                    listNodeHosp.Add(hos);
+                }
+                nem.HromadnyInsertPacientov(listNodePac);
+                nem.HromadnyInsertHospitalizacii(listNodeHosp);
+
+
+                this.databaza_nemocnic.Insert(nem.nazov_nemocnice, nem);
+
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+                
+
+        }
+
+        public void ZapisSystem() 
+        {
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter("ExportData.txt");
+                List<Nemocnica> listNemocnic =  this.VratListNemocnic();
+                for (int i = 0; i < listNemocnic.Count; i++)
+                {
+                    Nemocnica nem = listNemocnic.ElementAt(i);
+                    writer.WriteLine(nem.nazov_nemocnice);
+                    List<Pacient> listPacientovNemocnica = nem.VratListPacientov();
+                    for (int j = 0; j < listPacientovNemocnica.Count; j++)
+                    {
+                        Pacient pac = listPacientovNemocnica.ElementAt(j);
+                        writer.WriteLine(pac.rod_cislo + ";" + pac.meno + ";" + pac.priezvisko + ";" + pac.kod_poistovne + ";" + pac.datum_narodenia.ToString("dd.MM.yyyy"));
+                        List<Hospitalizacia> listHospPacienta = pac.VratListHospitalizacii();
+                        for (int k = 0; k < listHospPacienta.Count; k++)
+                        {
+                            Hospitalizacia hosp = listHospPacienta.ElementAt(k);
+                            writer.WriteLine(hosp.id_hospitalizacie+";"+hosp.rod_cislo_pacienta+";"+hosp.nazov_diagnozy+";"+hosp.datum_od.ToString("dd.MM.yyyy")+";"+hosp.datum_do.ToString("dd.MM.yyyy"));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally 
+            {
+                writer.Close();
+            }
+        }
+
 
 
 

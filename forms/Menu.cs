@@ -141,7 +141,14 @@ namespace Hospital_information_sytem
 
         private void button13_Click(object sender, EventArgs e)
         {
+            this.inf_system.NacitajSystem();
+            MessageBox.Show("Import dat bol dokoncany.");
+        }
 
+        private void button14_Click(object sender, EventArgs e)
+        {
+            this.inf_system.ZapisSystem();
+            MessageBox.Show("Export dat bol dokonceny.");
         }
     }
 

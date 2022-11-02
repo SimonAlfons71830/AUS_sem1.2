@@ -73,6 +73,9 @@ namespace Hospital_information_sytem
             //Nemocnica nem = new Nemocnica();
             List<Pacient> listPac = new List<Pacient>();
             List<Hospitalizacia> listHosp = new List<Hospitalizacia>();
+            List<Poistenec> listPotencialnychpoistVZP = new List<Poistenec>();
+            List<Poistenec> listPotencialnychpoistDVO = new List<Poistenec>();
+            List<Poistenec> listPotencialnychpoistUNI = new List<Poistenec>();
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -114,6 +117,24 @@ namespace Hospital_information_sytem
 
                                     pac.datum_narodenia = DateTime.Parse(zvysok.Substring(0, zvysok.Length));
                                     listPac.Add(pac);
+                                    Poistenec poistenec = new Poistenec();
+                                    poistenec.id_poistenca = pac.rod_cislo;
+                                    poistenec.rod_cislo_poistenca = pac.rod_cislo;
+                                    switch (pac.kod_poistovne.ToString())
+                                    {
+                                        case "VZP":
+                                            listPotencialnychpoistVZP.Add(poistenec);
+                                            break;
+                                        case "DOV":
+                                            listPotencialnychpoistDVO.Add(poistenec);
+                                            break;
+                                        case "UNI":
+                                            listPotencialnychpoistUNI.Add(poistenec);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
                                 }
                                 else //hospitalizacia
                                 {
@@ -156,6 +177,33 @@ namespace Hospital_information_sytem
                         }
                         this.nem.HromadnyInsertPacientov(listNodePac);
                         this.nem.HromadnyInsertHospitalizacii(listNodeHosp);
+
+
+
+                        List<Node<String, Poistenec>> listNodePoistVZP = new List<Node<string, Poistenec>>();
+                        for (int i = 0; i < listPotencialnychpoistVZP.Count; i++)
+                        {
+                            Node<String, Poistenec> pois = new Node<String, Poistenec>(listPotencialnychpoistVZP.ElementAt(i).id_poistenca, listPotencialnychpoistVZP.ElementAt(i));
+                            listNodePoistVZP.Add(pois);
+                        }
+                        this.informacny_system.NajdiPoistovnu("Všeobecná Zdravotná Poisťovňa").HromadnyInsertPoistencov(listNodePoistVZP);
+
+                        List<Node<String, Poistenec>> listNodePoistUNI = new List<Node<string, Poistenec>>();
+                        for (int i = 0; i < listPotencialnychpoistUNI.Count; i++)
+                        {
+                            Node<String, Poistenec> poist = new Node<String, Poistenec>(listPotencialnychpoistUNI.ElementAt(i).id_poistenca, listPotencialnychpoistUNI.ElementAt(i));
+                            listNodePoistUNI.Add(poist);
+                        }
+                        this.informacny_system.NajdiPoistovnu("UNION").HromadnyInsertPoistencov(listNodePoistUNI);
+
+                        List<Node<String, Poistenec>> listNodePoistDOV = new List<Node<string, Poistenec>>();
+                        for (int i = 0; i < listPotencialnychpoistDVO.Count; i++)
+                        {
+                            Node<String, Poistenec> poiste = new Node<String, Poistenec>(listPotencialnychpoistDVO.ElementAt(i).id_poistenca, listPotencialnychpoistDVO.ElementAt(i));
+                            listNodePoistDOV.Add(poiste);
+                        }
+                        this.informacny_system.NajdiPoistovnu("Dôvera").HromadnyInsertPoistencov(listNodePoistDOV);
+
 
                         reader.Close();
                         richTextBox1.Text = builder.ToString();

@@ -142,23 +142,40 @@ namespace Hospital_information_sytem
 
         private void button13_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Najprv zadaj data o Nemocniciach");
             String filepath = String.Empty;
             String fileExt = string.Empty;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                
                 filepath = openFileDialog.FileName;
                 fileExt = Path.GetExtension(filepath);
 
                 this.inf_system.NacitajSystem(filepath);
-                MessageBox.Show("Import dat bol dokoncany.");
+                MessageBox.Show("Import dat Nemocnic bol dokonceny.");
+
+            }
+            MessageBox.Show("Zadaj data o poistovni");
+            String filepathPoi = String.Empty;
+            String fileExtPoi = string.Empty;
+            OpenFileDialog openFileD = new OpenFileDialog();
+            if (openFileD.ShowDialog() == DialogResult.OK)
+            {
+                filepathPoi = openFileD.FileName;
+                fileExt = Path.GetExtension(filepathPoi);
+
+                this.inf_system.NacitajSystemPositovne(filepathPoi);
+
+                MessageBox.Show("Import dat Poistovni bol dokonceny.");
             }
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
             this.inf_system.ZapisSystem();
+            this.inf_system.ZapisSystemPoistovna();
             MessageBox.Show("Export dat bol dokonceny.");
         }
     }

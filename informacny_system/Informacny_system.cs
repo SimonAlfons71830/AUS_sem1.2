@@ -313,7 +313,7 @@ namespace Hospital_information_sytem.structures
             StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter("HOSP_SYS_DATA.txt");
+                writer = new StreamWriter("HOSP_SYS_DATA_NEMOCNICE.txt");
                 List<Nemocnica> listNemocnic =  this.VratListNemocnic();
                 for (int i = 0; i < listNemocnic.Count; i++)
                 {
@@ -345,8 +345,119 @@ namespace Hospital_information_sytem.structures
         }
 
 
+        public void NacitajSystemPositovne(String nazovsuboru)
+        {
+            Positovna poistovna = null;
+            //Pacient pacient = null;
+            StreamReader reader = new StreamReader(nazovsuboru);
+            StringBuilder builder = new StringBuilder();
+            List<Poistenec> listpoist = new List<Poistenec>();
+
+            try
+            {
+                string line = "";
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (!line.Contains(';'))
+                    {
+                        if (poistovna != null)
+                        {
+                            List<Node<String, Poistenec>> listNodePoistencov = new List<Node<string, Poistenec>>();
+                            for (int i = 0; i < listpoist.Count; i++)
+                            {
+                                Node<String, Poistenec> poi = new Node<String, Poistenec>(listpoist.ElementAt(i).id_poistenca, listpoist.ElementAt(i));
+                                listNodePoistencov.Add(poi);
+                            }
+                            
+                            poistovna.HromadnyInsertPoistencov(listNodePoistencov);
 
 
+                            this.databaza_poistovni.Insert(poistovna.nazov_poistovne, poistovna);
+                        }
+                        poistovna = new Positovna();
+                        poistovna.nazov_poistovne = line;
+
+                        poistovna.kod_poistovne = line.Substring(0, 3).ToUpper();
+                        switch (poistovna.kod_poistovne.ToString())
+                        {
+                            case "VŠE":
+                                poistovna.kod_poistovne = "VZP";
+                                break;
+                            case "DÔV":
+                                poistovna.kod_poistovne = "DOV";
+                                break;
+                            case "UNI":
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                    else if (line.Contains(';'))
+                    {
+                        var identifikator = line.Substring(0, line.IndexOf(';'));
+                        var zvysok = line.Remove(0, identifikator.Length + 1); //aby oseklo az po bodkociarku
+                        
+                            Poistenec poistenec = new Poistenec();
+                            poistenec.id_poistenca = identifikator;
+                            poistenec.rod_cislo_poistenca = zvysok.Substring(0, zvysok.IndexOf(';'));
+                            listpoist.Add(poistenec);
+
+                    }
+                    builder.AppendLine(line);
+                }
+                // MOZEM TO ROBIT AJ JEDNOTLIVYM VKLADANIM HOSPITALIZACII A NASLEDNE PACIENTA DO NEMOCNICE - MUSELO BY VEDIET CITAT NASLEDUJUCI RIADOK INAK AKO JE TO TERAZ
+                //insert poslednej
+                List<Node<String, Poistenec>> listNodePois = new List<Node<string, Poistenec>>();
+                for (int i = 0; i < listpoist.Count; i++)
+                {
+                    Node<String, Poistenec> poist = new Node<String, Poistenec>(listpoist.ElementAt(i).id_poistenca, listpoist.ElementAt(i));
+                    listNodePois.Add(poist);
+                }
+                poistovna.HromadnyInsertPoistencov(listNodePois);
+
+
+                this.databaza_poistovni.Insert(poistovna.nazov_poistovne, poistovna);
+
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        public void ZapisSystemPoistovna()
+        {
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter("HOSP_SYS_DATA_POISTOVNE.txt");
+                List<Positovna> listPoistovni = this.VratListPoistovni();
+                for (int i = 0; i < listPoistovni.Count; i++)
+                {
+                    Positovna positovna = listPoistovni.ElementAt(i);
+                    writer.WriteLine(positovna.nazov_poistovne);
+                    List<Poistenec> listPoistencovPoistovna = positovna.VratListPoistencov();
+                    for (int j = 0; j < listPoistencovPoistovna.Count; j++)
+                    {
+                        Poistenec pois = listPoistencovPoistovna.ElementAt(j);
+                        writer.WriteLine(pois.id_poistenca+ ";" + pois.rod_cislo_poistenca);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
 
     }
     

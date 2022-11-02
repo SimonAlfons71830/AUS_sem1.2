@@ -52,6 +52,11 @@ namespace Hospital_information_sytem.informacny_system
         {
             this.poistenci.Vyvaz(poistenci.Root);
         }
+        public void HromadnyInsertPoistencov(List<Node<String, Poistenec>> listPoistencov)
+        {
+            this.poistenci.ZapisMedianDoQueueList(listPoistencov);
+
+        }
 
     }
 }

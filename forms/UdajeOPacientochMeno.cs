@@ -45,7 +45,7 @@ namespace Hospital_information_sytem.forms
             if (listView1.SelectedItems.Count>0)
             {
                 var firstSelectedItem = listView1.SelectedItems[0];
-                var zobrazInfo = new UdajeOPacientovi(inf_system, this.nemocnica.nazov_nemocnice , firstSelectedItem.Text);
+                var zobrazInfo = new UdajeOPacientovi(inf_system, this.nemocnica , firstSelectedItem.Text);
                 zobrazInfo.ShowDialog();
             }
             

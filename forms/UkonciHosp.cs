@@ -39,7 +39,7 @@ namespace Hospital_information_sytem
                     {
                         //var pom = nemocnica.NajdiPacient(rod_cislo).NajdiHospitalizaciu(poslednaHosp);
                         //var pomNemocnica = nemocnica.NajdiHospitalizaciu(poslednaHosp.id_hospitalizacie);
-                        var pom = nemocnica.NajdiPacient(textBox1.Text).NajdiHospitalizaciu(poslednaHosp);
+                        var pom = pacient.NajdiHospitalizaciu(poslednaHosp);
                         var pomNemocnica = nemocnica.NajdiHospitalizaciu(poslednaHosp.id_hospitalizacie);
 
                         if (pom.datum_do.Year == 0001 && pomNemocnica.datum_do.Year == 0001)

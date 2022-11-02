@@ -18,11 +18,11 @@ namespace Hospital_information_sytem.forms
         public Nemocnica nemocnica;
         public Pacient pacient;
         
-        public UdajeOPacientovi(Informacny_system inf_system, String nazov_nemocnice, String rodne_cislo)
+        public UdajeOPacientovi(Informacny_system inf_system, Nemocnica nem, String rodne_cislo)
         {
             InitializeComponent();
             this.informacny_system = inf_system;
-            this.nemocnica = informacny_system.NajdiNemocnicu(nazov_nemocnice);
+            this.nemocnica = nem;
             this.pacient = nemocnica.NajdiPacient(rodne_cislo);
             
         }

@@ -42,8 +42,8 @@ namespace Hospital_information_sytem.forms
             List<Pacient> hospitalizovanyOdDo = new List<Pacient>();
             for (int i = 0; i < vsetciPacienti.Count; i++)
             {
-                List<Hospitalizacia> hospPacienta = new List<Hospitalizacia>();
-                hospPacienta = vsetciPacienti.ElementAt(i).VratListHospitalizacii();
+                List<Hospitalizacia> hospPacienta = vsetciPacienti.ElementAt(i).VratListHospitalizacii();
+                
                 if (hospPacienta.Count!= 0)
                 {
                     for (int j = 0; j < hospPacienta.Count; j++)

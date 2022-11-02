@@ -160,7 +160,7 @@ namespace Hospital_information_sytem.forms
                 Nemocnica nem = this.inf_system.NajdiNemocnicuPacientovi(firstSelectedItem.Text);
                 if (nem != null)
                 {
-                    var zobrazInfo = new UdajeOPacientovi(this.inf_system, nem.nazov_nemocnice, firstSelectedItem.Text);
+                    var zobrazInfo = new UdajeOPacientovi(this.inf_system, nem, firstSelectedItem.Text);
                     zobrazInfo.ShowDialog();
                 }
                 else
@@ -227,7 +227,7 @@ namespace Hospital_information_sytem.forms
                 Nemocnica nem = this.inf_system.NajdiNemocnicuPacientovi(firstSelectedItem.Text);
                 if (nem != null)
                 {
-                    var zobrazInfo = new UdajeOPacientovi(this.inf_system, nem.nazov_nemocnice, firstSelectedItem.Text);
+                    var zobrazInfo = new UdajeOPacientovi(this.inf_system, nem, firstSelectedItem.Text);
                     zobrazInfo.ShowDialog();
                 }
                 else

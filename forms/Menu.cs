@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -141,8 +142,18 @@ namespace Hospital_information_sytem
 
         private void button13_Click(object sender, EventArgs e)
         {
-            this.inf_system.NacitajSystem();
-            MessageBox.Show("Import dat bol dokoncany.");
+            String filepath = String.Empty;
+            String fileExt = string.Empty;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                filepath = openFileDialog.FileName;
+                fileExt = Path.GetExtension(filepath);
+
+                this.inf_system.NacitajSystem(filepath);
+                MessageBox.Show("Import dat bol dokoncany.");
+            }
         }
 
         private void button14_Click(object sender, EventArgs e)

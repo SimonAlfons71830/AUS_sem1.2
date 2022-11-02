@@ -191,11 +191,11 @@ namespace Hospital_information_sytem.structures
 
 
 
-        public void NacitajSystem()
+        public void NacitajSystem(String nazovsuboru)
         {
             Nemocnica nem = null;
             Pacient pacient = null;
-            StreamReader reader = new StreamReader("ExportData.txt");
+            StreamReader reader = new StreamReader(nazovsuboru);
             StringBuilder builder = new StringBuilder();
             List<Pacient> listpac = new List<Pacient>();
             List<Hospitalizacia> listhosp = new List<Hospitalizacia>();
@@ -275,11 +275,9 @@ namespace Hospital_information_sytem.structures
                             }
                             listhosp.Add(hosp);
                             //pacient.PridajHosp(hosp);
-                            
                         }
                     }
                     builder.AppendLine(line);
-                   
                 }
                 // MOZEM TO ROBIT AJ JEDNOTLIVYM VKLADANIM HOSPITALIZACII A NASLEDNE PACIENTA DO NEMOCNICE - MUSELO BY VEDIET CITAT NASLEDUJUCI RIADOK INAK AKO JE TO TERAZ
                 //insert poslednej
@@ -308,8 +306,6 @@ namespace Hospital_information_sytem.structures
             {
 
             }
-                
-
         }
 
         public void ZapisSystem() 
@@ -317,7 +313,7 @@ namespace Hospital_information_sytem.structures
             StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter("ExportData.txt");
+                writer = new StreamWriter("HOSP_SYS_DATA.txt");
                 List<Nemocnica> listNemocnic =  this.VratListNemocnic();
                 for (int i = 0; i < listNemocnic.Count; i++)
                 {

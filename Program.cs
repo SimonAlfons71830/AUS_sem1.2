@@ -20,27 +20,27 @@ namespace Hospital_information_sytem
             Informacny_system inf_system = new Informacny_system();
             inf_system.PridajPoistovnu();
 
-            
+
 
             Data_Generator generator = new Data_Generator();
             for (int i = 0; i < 10; i++)
             {
                 generator.GenerujNemocnicu(inf_system);
-                
-            }
-            for (int i = 0; i < 100; i++)
-            {
-                generator.GenerujPacientaVPoistenca(inf_system);
+
             }
             for (int i = 0; i < 1000; i++)
             {
-                    generator.GenerujHospitalizaciu(inf_system);
+                generator.GenerujPacientaVPoistenca(inf_system);
             }
-            
+            for (int i = 0; i < 10000; i++)
+            {
+                generator.GenerujHospitalizaciu(inf_system);
+            }
+
 
 
             //GUI
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Menu(inf_system));
@@ -57,6 +57,8 @@ namespace Hospital_information_sytem
             Console.WriteLine("\nTEST T3 \nOPERACIE VYVAZENIE - MEDIANOVE");
             test.TetstujMedianoveVkladanie();
             Console.WriteLine("=====================================================================================");*/
+
+
         }
     }
 }

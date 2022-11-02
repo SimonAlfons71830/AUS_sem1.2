@@ -47,6 +47,73 @@ namespace Hospital_information_sytem.structures
             Size++;
             return data;
         }
+        //updated insert
+        public T InsertUpdated(K key, T data)
+        {
+            var nodePom = this.FindNode(key);
+            if (nodePom != null) { return default(T); }
+
+            Node<K, T> parent = null;
+            Node<K, T> current = Root;
+            int compare = 0;
+            while (current != null)
+            {
+                parent = current;
+                compare = current.Key.CompareTo(key);
+                current = compare < 0 ? current.Right : current.Left;
+            }
+
+            Node<K, T> newNode = new Node<K, T>(key, data);
+
+            if (parent != null)
+            {
+                if (compare < 0)
+                {
+                    parent.Right = newNode;
+                    newNode.Parent = parent;
+                    if (newNode.Parent != Root)
+                    {
+                        if (newNode.Parent != Root)
+                        {
+
+
+                            if (newNode.Parent.Parent.Right == newNode.Parent && newNode.Parent.Left == null && newNode.Parent.Parent.Left == null)
+                            {
+                                //rotuj do lava - zle pomenovana metoda
+                                this.RotujDoprava2(newNode.Parent.Parent);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    parent.Left = newNode;
+                    newNode.Parent = parent;
+                    if (newNode.Parent != Root)
+                    {
+                        if (newNode.Parent != Root)
+                        {
+
+                            if (newNode.Parent.Parent.Left == newNode.Parent && newNode.Parent.Right == null && newNode.Parent.Parent.Right == null)
+                            {
+                                //rotuj do prava - zle pomenovana metoda
+                                this.RotujDolava2(newNode.Parent.Parent);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Root = newNode;
+                newNode.Parent = parent;
+            }
+            
+            Size++;
+            return data;
+        }
+
+
         // najde hladany node podla zadaneho Kluca, vrati cely Node
         public Node<K, T> FindNode(K key, bool KeyNotFoundExc = false)
         {
@@ -363,6 +430,7 @@ namespace Hospital_information_sytem.structures
         //zmenena je len posledna podmienka
         private Node<K, T> RotujDoprava2(Node<K, T> parent)
         {
+
             Node<K, T> pivot = parent.Right;
             var stary = parent;
             var staryPravy = parent.Right;
@@ -385,7 +453,21 @@ namespace Hospital_information_sytem.structures
                 pivot.Left = stary;
                 this.FindNode(stary.Key).Parent = rotovany;
             }
-            if (parent == Root) { Root = pivot; pivot.Parent = null; } else { pivot.Parent = staryParentParenta; this.FindNode(staryParentParenta.Key).Right = rotovany; }
+            if (parent == Root) { Root = pivot; pivot.Parent = null; }
+            else
+            {
+                pivot.Parent = staryParentParenta;
+                if (this.FindNode(staryParentParenta.Key).Right == stary)
+                {
+                    this.FindNode(staryParentParenta.Key).Right = rotovany;
+                }
+                else
+                {
+                    this.FindNode(staryParentParenta.Key).Left = rotovany;
+                }
+
+
+            }
             return pivot;
         }
         // Lava rotacia
@@ -446,7 +528,20 @@ namespace Hospital_information_sytem.structures
                 this.FindNode(stary.Key).Parent = rotovany;
             }
 
-            if (parent == Root) { Root = pivot; pivot.Parent = null; } else { pivot.Parent = staryParentParenta; this.FindNode(staryParentParenta.Key).Left = rotovany; }
+            if (parent == Root) { Root = pivot; pivot.Parent = null; }
+            else
+            {
+                pivot.Parent = staryParentParenta;
+                if (this.FindNode(staryParentParenta.Key).Left == stary)
+                {
+                    this.FindNode(staryParentParenta.Key).Left = rotovany;
+                }
+                else
+                {
+                    this.FindNode(staryParentParenta.Key).Right = rotovany;
+                }
+
+            }
             return pivot;
         }
 
@@ -467,7 +562,7 @@ namespace Hospital_information_sytem.structures
             {
                 if (node.Left.Left == null && node.Left.Right != null)
                 {
-                    this.RotujDoprava(node.Left);
+                    this.RotujDoprava2(node.Left);
                     lavy = lavy.Parent;
                 }
             }
@@ -475,7 +570,7 @@ namespace Hospital_information_sytem.structures
             {
                 if (node.Right.Right == null && node.Right.Left != null)
                 {
-                    this.RotujDolava(node.Right);
+                    this.RotujDolava2(node.Right);
                     pravy = pravy.Parent;
                 }
             }
@@ -486,7 +581,7 @@ namespace Hospital_information_sytem.structures
 
                     if (lavy.Right != null)
                     {
-                        this.RotujDoprava(lavy);
+                        this.RotujDoprava2(lavy);
                         lavy = lavy.Parent;
                     }
                     else
@@ -495,7 +590,7 @@ namespace Hospital_information_sytem.structures
                     }
                     if (lavy.Left == null && lavy.Right != null)
                     {
-                        this.RotujDoprava(lavy);
+                        this.RotujDoprava2(lavy);
                         lavy = lavy.Parent;
                     }
                 }
@@ -507,7 +602,7 @@ namespace Hospital_information_sytem.structures
 
                     if (pravy.Left != null)
                     {
-                        this.RotujDolava(pravy);
+                        this.RotujDolava2(pravy);
                         pravy = pravy.Parent;
                     }
                     else
@@ -516,7 +611,7 @@ namespace Hospital_information_sytem.structures
                     }
                     if (pravy.Right == null && pravy.Left != null)
                     {
-                        this.RotujDolava(pravy);
+                        this.RotujDolava2(pravy);
                         pravy = pravy.Parent;
                     }
                 }
@@ -544,11 +639,11 @@ namespace Hospital_information_sytem.structures
                 else if (vyskaPravy - vyskaLavy < 0)
                 {
                     //rotovat root do prava
-                    this.RotujDolava(Root);
+                    this.RotujDolava2(Root);
                 }
                 else
                 {
-                    this.RotujDoprava(Root);
+                    this.RotujDoprava2(Root);
                 }
             }
         }

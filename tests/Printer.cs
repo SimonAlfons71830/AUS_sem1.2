@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Hospital_information_sytem
 {
 
-    public static class BTreePrinter
+    internal static class BTreePrinter
     {
         class NodeInfo
         {
@@ -17,7 +17,7 @@ namespace Hospital_information_sytem
             public NodeInfo Parent, Left, Right;
         }
 
-        private static void Print(this Node<int, String> root, int topMargin = 2, int leftMargin = 2)
+        public static void Print(this Node<int, String> root, int topMargin = 2, int leftMargin = 2)
         {
             if (root == null) return;
             int rootTop = Console.CursorTop + topMargin;

@@ -11,8 +11,10 @@ namespace Hospital_information_sytem.structures
 {
     public class Informacny_system
     {
+        
         Binary_search_tree<String, Nemocnica> databaza_nemocnic = new Binary_search_tree<String, Nemocnica>();
         Binary_search_tree<String, Positovna> databaza_poistovni = new Binary_search_tree<string, Positovna>();
+        //Binary_search_tree<(String, String), Positovna> databaza_poist_nova = new Binary_search_tree<(string, string), Positovna>();
         public int VratPocetNemocnic()
         {
             return this.databaza_nemocnic.Size;
@@ -55,7 +57,10 @@ namespace Hospital_information_sytem.structures
             var pomVZP = databaza_poistovni.Insert(poistovnaVZP.nazov_poistovne, poistovnaVZP);
             var pomUNION = databaza_poistovni.Insert(poistovnaUNION.nazov_poistovne, poistovnaUNION);
             var pomDOVERA = databaza_poistovni.Insert(poistovnaDovera.nazov_poistovne, poistovnaDovera);
-            if (pomVZP == null || pomUNION == null || pomDOVERA == null)
+            //var pomVZp = databaza_poist_nova.Insert((poistovnaVZP.nazov_poistovne, poistovnaVZP.kod_poistovne), poistovnaVZP);
+            //var pomUnion = databaza_poist_nova.Insert((poistovnaUNION.nazov_poistovne, poistovnaUNION.kod_poistovne), poistovnaUNION);
+            //var pomDovera = databaza_poist_nova.Insert((poistovnaDovera.nazov_poistovne, poistovnaDovera.kod_poistovne), poistovnaDovera);
+            if (pomVZP == null || pomUNION == null || pomDOVERA == null )
             {
                 return false;
             }
@@ -97,11 +102,16 @@ namespace Hospital_information_sytem.structures
 
             for (int i = 0; i < listVsetkychPacientov.Count; i++)
             {
-                Hospitalizacia poslednaHospPacienta = listVsetkychPacientov.ElementAt(i).VratListHospitalizacii().Last();
-                if (poslednaHospPacienta.datum_do.Year == 0001)
+                if (listVsetkychPacientov.ElementAt(i).VratListHospitalizacii().Count != 0)
                 {
-                    listAktualneHospPacientov.Add(listVsetkychPacientov.ElementAt(i));
+                    Hospitalizacia poslednaHospPacienta = listVsetkychPacientov.ElementAt(i).VratListHospitalizacii().Last();
+                    if (poslednaHospPacienta.datum_do.Year == 0001)
+                    {
+                        listAktualneHospPacientov.Add(listVsetkychPacientov.ElementAt(i));
+                    }
                 }
+                
+                
             }
             return listAktualneHospPacientov;
         }
@@ -117,26 +127,55 @@ namespace Hospital_information_sytem.structures
             }
             return listAktualneHospPacientovPOISTOVNA;
         }
-        public void Oprimalizuj()
+
+        public void InOrderOptimalizujPoistovne(Node<String,Positovna> parent)
+        {
+            if (parent != null)
+            {
+                InOrderOptimalizujPoistovne(parent.Left);
+                parent.Data.Optimalizuj();
+                //vyvaz aj stromy tohto nodu
+                InOrderOptimalizujPoistovne(parent.Right);
+            }
+        }
+
+        public void InOrderOptimalizujNemocnice(Node<String, Nemocnica> parent)
+        {
+            if (parent != null)
+            {
+                InOrderOptimalizujNemocnice(parent.Left);
+                parent.Data.Optimalizuj();
+                //vyvaz aj stromy tohto nodu
+                InOrderOptimalizujNemocnice(parent.Right);
+            }
+        }
+        public void Optimalizuj()
         {
             this.databaza_poistovni.Vyvaz(databaza_poistovni.Root);
             this.databaza_nemocnic.Vyvaz(databaza_nemocnic.Root);
-            for (int i = 0; i < databaza_nemocnic.Size; i++)
+            this.InOrderOptimalizujNemocnice(this.databaza_nemocnic.Root);
+            //inorder prehliadkov optimalizovat kazdy
+            this.InOrderOptimalizujPoistovne(databaza_poistovni.Root);
+
+            /*for (int i = 0; i < databaza_poistovni.Size; i++)
             {
+
                 List<Nemocnica> vsetkyNemocnice = databaza_nemocnic.ZapisVsetkyNody(databaza_nemocnic.Root);
                 for (int j = 0; j < vsetkyNemocnice.Count; j++)
                 {
                     vsetkyNemocnice.ElementAt(i).Optimalizuj();
                 }
+
             }
-            for (int i = 0; i < databaza_poistovni.Size; i++)
+            for (int i = 0; i < databaza_nemocnic.Size; i++)
             {
+
                 List<Positovna> vsetkyPoistovne = databaza_poistovni.ZapisVsetkyNody(databaza_poistovni.Root);
                 for (int j = 0; j < vsetkyPoistovne.Count; j++)
                 {
                     vsetkyPoistovne.ElementAt(i).Optimalizuj();
                 }
-            }
+            }*/
         }
 
         public List<Pacient> VsetciPacientiHospVDanyMesiac(DateTime mesiacArok) 
@@ -210,7 +249,7 @@ namespace Hospital_information_sytem.structures
                         if (nem != null)
                         {
                             List<Node<String, Pacient>> listNodePacNem = new List<Node<string, Pacient>>();
-                            List<Node<String, Hospitalizacia>> listNodeHospNem = new List<Node<string, Hospitalizacia>>();
+                            List<Node<(String, String, DateTime), Hospitalizacia>> listNodeHospNem = new List<Node<(String, String, DateTime), Hospitalizacia>>();
                             for (int i = 0; i < listpac.Count; i++)
                             {
                                 Node<String, Pacient> pac = new Node<String, Pacient>(listpac.ElementAt(i).rod_cislo, listpac.ElementAt(i));
@@ -218,7 +257,9 @@ namespace Hospital_information_sytem.structures
                             }
                             for (int i = 0; i < listhosp.Count; i++)
                             {
-                                Node<String, Hospitalizacia> hos = new Node<String, Hospitalizacia>(listhosp.ElementAt(i).id_hospitalizacie, listhosp.ElementAt(i));
+                                Node<(String, String, DateTime), Hospitalizacia> hos = new Node<(String, String, DateTime),
+                                    Hospitalizacia>((listhosp.ElementAt(i).id_hospitalizacie, listhosp.ElementAt(i).rod_cislo_pacienta, 
+                                    listhosp.ElementAt(i).datum_od), listhosp.ElementAt(i));
                                 listNodeHospNem.Add(hos);
                             }
                             nem.HromadnyInsertPacientov(listNodePacNem);
@@ -282,7 +323,7 @@ namespace Hospital_information_sytem.structures
                 // MOZEM TO ROBIT AJ JEDNOTLIVYM VKLADANIM HOSPITALIZACII A NASLEDNE PACIENTA DO NEMOCNICE - MUSELO BY VEDIET CITAT NASLEDUJUCI RIADOK INAK AKO JE TO TERAZ
                 //insert poslednej
                 List<Node<String, Pacient>> listNodePac = new List<Node<string, Pacient>>();
-                List<Node<String, Hospitalizacia>> listNodeHosp = new List<Node<string, Hospitalizacia>>();
+                List<Node<(String, String, DateTime), Hospitalizacia>> listNodeHosp = new List<Node<(String, String, DateTime), Hospitalizacia>>();
                 for (int i = 0; i < listpac.Count; i++)
                 {
                     Node<String, Pacient> pac = new Node<String, Pacient>(listpac.ElementAt(i).rod_cislo, listpac.ElementAt(i));
@@ -290,7 +331,10 @@ namespace Hospital_information_sytem.structures
                 }
                 for (int i = 0; i < listhosp.Count; i++)
                 {
-                    Node<String, Hospitalizacia> hos = new Node<String, Hospitalizacia>(listhosp.ElementAt(i).id_hospitalizacie, listhosp.ElementAt(i));
+                    Node<(String, String, DateTime), Hospitalizacia> hos = new Node<(String, String, DateTime),
+                        Hospitalizacia>((listhosp.ElementAt(i).id_hospitalizacie,
+                        listhosp.ElementAt(i).rod_cislo_pacienta, 
+                        listhosp.ElementAt(i).datum_od), listhosp.ElementAt(i));
                     listNodeHosp.Add(hos);
                 }
                 nem.HromadnyInsertPacientov(listNodePac);

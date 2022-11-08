@@ -37,7 +37,8 @@ namespace Hospital_information_sytem.forms
             //button1.Enabled = comboBox1.Enabled;
             //funkcia vrat hosp od do z nemocnice 
 
-            Nemocnica nem = this.inf_system.NajdiNemocnicu(comboBox1.Text);
+           /* Nemocnica nem = this.inf_system.NajdiNemocnicu(comboBox1.Text);
+            
             List<Pacient> vsetciPacienti = nem.VratListPacientov();
             List<Pacient> hospitalizovanyOdDo = new List<Pacient>();
             for (int i = 0; i < vsetciPacienti.Count; i++)
@@ -74,7 +75,7 @@ namespace Hospital_information_sytem.forms
 
             var hospOdDoPac = new UdajeOPacientochMeno(this.inf_system, hospitalizovanyOdDo, nem);
             hospOdDoPac.ShowDialog();
-
+*/
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

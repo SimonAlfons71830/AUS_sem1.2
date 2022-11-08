@@ -14,26 +14,17 @@ namespace Hospital_information_sytem.informacny_system
         public String kod_poistovne;
         public String nazov_poistovne;
         Binary_search_tree<String, Poistenec> poistenci = new Binary_search_tree<string, Poistenec>();
+        Binary_search_tree<(String, String), Poistenec> poistenci_novi = new Binary_search_tree<(String, String), Poistenec>();
         public bool PridajPoistenca(String rod_cislo)
         {
             if (rod_cislo == string.Empty) { return false; }
             Poistenec poistenec = new Poistenec();
             poistenec.rod_cislo_poistenca = rod_cislo;
-            /*if (kod_poistovne == "VZP")
-            {
-                poistenec.id_poistenca = _random.Next(1000, 1999).ToString();
-            }
-            if (kod_poistovne == "UNI")
-            {
-                poistenec.id_poistenca = _random.Next(2000,2999).ToString();
-            }
-            if (kod_poistovne == "DOV")
-            {
-                poistenec.id_poistenca = _random.Next(3000,3999).ToString();
-            }*/
             poistenec.id_poistenca = rod_cislo;
-            var pom = this.poistenci.Insert(rod_cislo, poistenec);
-            if (pom == null) { return false; }
+            (String, String) keyPoistenec = (poistenec.id_poistenca, poistenec.rod_cislo_poistenca);
+            //var pom = this.poistenci.Insert(rod_cislo, poistenec);
+            var pompom = poistenci_novi.Insert(keyPoistenec, poistenec);
+            if (pompom == null || pompom == null) { return false; }
             return true;
 
         }
@@ -41,6 +32,7 @@ namespace Hospital_information_sytem.informacny_system
         {
             if (id_poistenca == string.Empty) { return null; }
             var pom = poistenci.FindNode(id_poistenca).Data;
+            
             if (pom == null) { return null; } else { return pom; }
         }
         public List<Poistenec> VratListPoistencov()

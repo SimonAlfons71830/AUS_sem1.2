@@ -24,8 +24,7 @@ namespace Hospital_information_sytem.forms
 
         private void Nemocnice_Load(object sender, EventArgs e)
         {
-            List<Nemocnica> nemocnicee = this.inf_system.VratListNemocnic();
-            List<Nemocnica> nemocnice = nemocnicee.OrderBy(o => o.nazov_nemocnice).ToList();
+            List<Nemocnica> nemocnice = this.inf_system.VratListNemocnic();
             for (int i = 0; i < nemocnice.Count; i++)
             {
                 ListViewItem item = new ListViewItem((i+1).ToString());

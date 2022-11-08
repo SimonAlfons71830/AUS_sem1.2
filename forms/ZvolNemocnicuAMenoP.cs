@@ -47,11 +47,13 @@ namespace Hospital_information_sytem.forms
             
 
             Nemocnica nem = this.inf_system.NajdiNemocnicu(comboBox1.Text);
-            List<Pacient> pac = nem.NajdiPacientaPodlaMeno(textBox2.Text, textBox1.Text);
 
-            if (pac != null)
+            Binary_search_tree<(String,String,String),Pacient> stromPacientov = nem.NajdiPacientPodlaMena(textBox2.Text, textBox1.Text);
+            //List<Pacient> pac = nem.NajdiPacientaPodlaMeno(textBox2.Text, textBox1.Text);
+
+            if (stromPacientov != null)
             {
-                var udajeOPacientochPodlaMeno = new UdajeOPacientochMeno(inf_system, pac, nem);
+                var udajeOPacientochPodlaMeno = new UdajeOPacientochMeno(inf_system, stromPacientov , nem);
                 udajeOPacientochPodlaMeno.ShowDialog();
             }
             else

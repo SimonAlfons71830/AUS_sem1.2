@@ -46,13 +46,14 @@ namespace Hospital_information_sytem
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-            
+            //podla inorder
             List<informacny_system.Nemocnica> nemocnice = this.inf_system.VratListNemocnic();
 
             for (int i = 0; i < nemocnice.Count; i++)
             {
                 comboBox2.Items.Add(nemocnice[i].nazov_nemocnice);
             }
+
             List<informacny_system.Positovna> poistovne = this.inf_system.VratListPoistovni();
             for (int i = 0; i < poistovne.Count; i++)
             {
@@ -62,40 +63,22 @@ namespace Hospital_information_sytem
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            //pridaj pacienta do databazy
-           
-            /*String meno = textBox1.Text;
-            String priezvisko = textBox2.Text;
-            String rod_cislo = textBox3.Text;
-            DateTime datum_narodenia = dateTimePicker1.Value;
-            String nazov_nemocnice = comboBox2.Text;
-            String nazov_poistovne = comboBox1.Text;*/
-            
-
-            DialogResult dr = MessageBox.Show("Chcete ulozit pacienta?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dr = MessageBox.Show("Chcete ulozit pacienta?", "Ano", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
-                if(textBox1.Text != String.Empty && textBox2.Text != String.Empty && textBox3.Text != String.Empty && dateTimePicker1.Value != null)
-                //if (meno != string.Empty && priezvisko != string.Empty && rod_cislo != string.Empty && datum_narodenia != null) 
+                if(textBox1.Text != String.Empty && textBox2.Text != String.Empty 
+                    && textBox3.Text != String.Empty && dateTimePicker1.Value != null)
                 {
-                    //var nemocnica = inf_system.NajdiNemocnicu(nazov_nemocnice);
-                    //var poistovna = inf_system.NajdiPoistovnu(nazov_poistovne);
-
                     var nemocnica = inf_system.NajdiNemocnicu(comboBox2.Text);
                     var poistovna = inf_system.NajdiPoistovnu(comboBox1.Text);
                     if (nemocnica != null && poistovna != null)
                     {
-
-                        //var pacient = nemocnica.PridajPacienta(meno, priezvisko, rod_cislo, datum_narodenia, poistovna.kod_poistovne, nazov_nemocnice);
-                        //var poistenec = poistovna.PridajPoistenca(rod_cislo);
-
                         var pacient = nemocnica.PridajPacienta(textBox1.Text, textBox2.Text,textBox3.Text, dateTimePicker1.Value, poistovna.kod_poistovne, comboBox2.Text);
                         var poistenec = poistovna.PridajPoistenca(textBox3.Text);
                         if (pacient && poistenec)
                         {
                             MessageBox.Show("Pacient bol pridany do nemocnice.");
-
                         }
                         else
                         {

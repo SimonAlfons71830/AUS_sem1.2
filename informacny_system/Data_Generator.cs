@@ -100,29 +100,36 @@ namespace Hospital_information_sytem.informacny_system
             Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
             List<Pacient> aktualnyPacientiNemocnice = nem.VratListPacientov();
             Pacient pac = aktualnyPacientiNemocnice.ElementAt(_random.Next(aktualnyPacientiNemocnice.Count));
-            List<Hospitalizacia> pacientoveHospitalizacie = pac.VratListHospitalizacii();
+            var poslednaHospPacienta = pac.VratPoslednuHospitalizaciu();
             DateTime start;
-            if (pacientoveHospitalizacie.Count > 0)
+            if (poslednaHospPacienta != null)
             {
-                Hospitalizacia posledna = pacientoveHospitalizacie.Last();
-                
-                if (posledna.datum_do.Year == 0001)
+                //ukonci predoslu a zacne dalsiu alebo rovno zacne dalsiu
+                if (poslednaHospPacienta.Data.datum_do.Year == 0001)
                 {
-                    this.UkonciHospitalizaciuPacienta(pac, nem);
-                    return;
+                    DateTime koniec;
+                    koniec = new DateTime(poslednaHospPacienta.Data.datum_od.Year,
+                        poslednaHospPacienta.Data.datum_od.Month,
+                        poslednaHospPacienta.Data.datum_od.Day);
+                    var randDatKoniec = koniec.AddDays(_random.Next(3, 15));
+                    if (randDatKoniec >= DateTime.Today)
+                    {
+                        return;
+                    }
+                    poslednaHospPacienta.Data.datum_do = randDatKoniec;
+                    this.aktivneHosp.Remove(poslednaHospPacienta.Data.id_hospitalizacie);
+
                 }
-                else
-                {
-                    start = new DateTime(posledna.datum_do.Year,
-                        posledna.datum_do.Month, posledna.datum_do.Day).AddDays(1); //prida jeden den aby hospitalizacie nezacinali v ten isty den ako skoncia 
-                }
+                start = new DateTime(poslednaHospPacienta.Data.datum_do.Year,
+                        poslednaHospPacienta.Data.datum_do.Month,
+                        poslednaHospPacienta.Data.datum_do.Day).AddDays(1);
+                //prida jeden den aby hospitalizacie nezacinali v ten isty den ako skoncia 
             }
             else //pacientoveHospitalizacie.Count == 0
-            {
+            { 
                 //RANDOM DATE OD NARODENIA PACIENTA AZ PO DNES NA ZACATIE HOSPITALIZACIE
                 start = new DateTime(pac.datum_narodenia.Year, pac.datum_narodenia.Month, pac.datum_narodenia.Day);
             }
-           
             int range = (DateTime.Today - start).Days;
             if(range < 0) 
             { 
@@ -149,14 +156,18 @@ namespace Hospital_information_sytem.informacny_system
             {
                 mesiacID = randDat.Month.ToString();
             }
+            Hospitalizacia hosp = new Hospitalizacia();
 
-            String rokID = randDat.Year.ToString().Substring(2, 2);
+            String rokID = randDat.Year.ToString();
             String id_hospitalizacie = denID + mesiacID + rokID + pac.rod_cislo;
+            hosp.id_hospitalizacie = id_hospitalizacie;
             List<String> diagnozy = hospitalizacia.VratListDiagnoz();
             String diagnozaNazov = diagnozy.ElementAt(_random.Next(diagnozy.Count));
-
-            nem.PridajHospitalizaciu(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
-            pac.PridajHospitalizaciuPacientovi(id_hospitalizacie, pac.rod_cislo, randDat, diagnozaNazov);
+            hosp.nazov_diagnozy = diagnozaNazov;
+            hosp.datum_od = randDat;
+            hosp.rod_cislo_pacienta = pac.rod_cislo;
+            nem.PridajHospi(hosp);
+            pac.PridajHosp(hosp);
             this.aktivneHosp.Add(id_hospitalizacie);
         }
         
@@ -164,6 +175,8 @@ namespace Hospital_information_sytem.informacny_system
         public void UkonciHospitalizaciuPacienta(Pacient pacient, Nemocnica nemocnica) 
         {
             Hospitalizacia hosp = pacient.VratListHospitalizacii().Last();
+            
+            
             List<Hospitalizacia> hospNemoList = nemocnica.VratListHospitalizacii();
             Hospitalizacia hospNem = new Hospitalizacia();
             for (int i = 0; i < hospNemoList.Count; i++)

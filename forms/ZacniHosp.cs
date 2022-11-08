@@ -28,10 +28,20 @@ namespace Hospital_information_sytem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //String rod_cislo = textBox1.Text;
-            //DateTime dat_od = dateTimePicker1.Value;
-            String id_hospitalizacie = dateTimePicker1.Value.Day.ToString() + dateTimePicker1.Value.Month.ToString() 
-                + dateTimePicker1.Value.Year.ToString() + textBox1.Text; 
+            String rok = dateTimePicker1.Value.Year.ToString();
+            String mesiac = dateTimePicker1.Value.Month.ToString();
+            String den = dateTimePicker1.Value.Day.ToString();
+            if (mesiac.Length == 1)
+            {
+                mesiac = "0" + mesiac;
+            }
+            if (den.Length == 1)
+            {
+                den = "0" + den;
+            }
+
+
+            String id_hospitalizacie = den + mesiac + rok + textBox1.Text; 
             //String nazov_diagnozy = comboBox1.Text;
             Nemocnica nemocnica = this.informacny_system.NajdiNemocnicu(comboBox2.Text);
             Pacient pacient = nemocnica.NajdiPacient(textBox1.Text);
@@ -48,17 +58,33 @@ namespace Hospital_information_sytem
                     {
                         //var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, rod_cislo, dat_od, nazov_diagnozy);
                         // var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, rod_cislo, dat_od, nazov_diagnozy);
-                        var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
-                        var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
-                        if (pom && pomPac)
+                        Hospitalizacia hospi = new Hospitalizacia();
+                        hospi.id_hospitalizacie = id_hospitalizacie;
+                        hospi.rod_cislo_pacienta = textBox1.Text;
+                        hospi.datum_od = dateTimePicker1.Value;
+                        hospi.nazov_diagnozy = comboBox1.Text;
+                        var pom = nemocnica.PridajHospi(hospi);
+                        //var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
+                        //var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
+                        if (pacient.JeAktualneHosp()) //datum do .year = 0001 - nema este ukoncenu predchadzajucu
                         {
-                            MessageBox.Show("Hospitalizacia bola zaevidovana.");
-                            
+                            MessageBox.Show("Pacient je este hospitalizovany.");
                         }
                         else
                         {
-                            MessageBox.Show("CHYBA ... Hospitalizacia nebola zaevidovana.");
+                            var pomPac = pacient.PridajHosp(hospi);
+                            if (pom && pomPac)
+                            {
+                                MessageBox.Show("Hospitalizacia bola zaevidovana.");
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("CHYBA ... Hospitalizacia nebola zaevidovana.");
+                            }
                         }
+                        
+                        
                     }
                     else {
                         MessageBox.Show("Nemocnica alebo pacient neexistuje.");
@@ -84,12 +110,12 @@ namespace Hospital_information_sytem
                 comboBox2.Items.Add(nemocnice[i].nazov_nemocnice);
             }
             Hospitalizacia hosp = new Hospitalizacia();
+            hosp.LoadDataFromFile();
             List<string> hospitalizacie = hosp.VratListDiagnoz();
             for (int i = 0; i < hospitalizacie.Count; i++)
             {
-                comboBox1.Items.Add(hospitalizacie[i]);
+                comboBox1.Items.Add(hospitalizacie.ElementAt(i));
             }
-
         }
 
         private void label8_Click(object sender, EventArgs e)

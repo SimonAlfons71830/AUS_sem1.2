@@ -28,16 +28,6 @@ namespace Hospital_information_sytem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*StreamReader reader = new StreamReader("diagnozy.txt.txt");
-            //String size = Convert.ToString(reader.ReadLine());
-            while (!reader.EndOfStream)
-            {
-                this.listDiagnoz.Add(reader.ReadLine());
-            }
-
-            reader.Close();*/
-           
-
             DialogResult dr = MessageBox.Show("Pridať nemocnicu?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
@@ -134,7 +124,7 @@ namespace Hospital_information_sytem
                                         default:
                                             break;
                                     }
-
+                                    //this.nem.PridajPacienta(pac.meno,pac.priezvisko,pac.rod_cislo,pac.datum_narodenia,pac.kod_poistovne,nem.nazov_nemocnice);
                                 }
                                 else //hospitalizacia
                                 {
@@ -164,7 +154,7 @@ namespace Hospital_information_sytem
                             builder.AppendLine(line);
                         }
                         List<Node<String, Pacient>> listNodePac = new List<Node<string, Pacient>>();
-                        List<Node<String, Hospitalizacia>> listNodeHosp = new List<Node<string, Hospitalizacia>>();
+                        List<Node<(String,String,DateTime), Hospitalizacia>> listNodeHosp = new List<Node<(String, String, DateTime), Hospitalizacia>>();
                         for (int i = 0; i < listPac.Count; i++)
                         {
                             Node<String, Pacient> pac = new Node<String, Pacient>(listPac.ElementAt(i).rod_cislo, listPac.ElementAt(i));
@@ -172,7 +162,11 @@ namespace Hospital_information_sytem
                         }
                         for (int i = 0; i < listHosp.Count; i++)
                         {
-                            Node<String, Hospitalizacia> hos = new Node<String, Hospitalizacia>(listHosp.ElementAt(i).id_hospitalizacie, listHosp.ElementAt(i));
+                            Node<(String, String, DateTime), Hospitalizacia> hos = 
+                                new Node<(String, String, DateTime), 
+                                Hospitalizacia>((listHosp.ElementAt(i).id_hospitalizacie,
+                                listHosp.ElementAt(i).rod_cislo_pacienta, 
+                                listHosp.ElementAt(i).datum_od), listHosp.ElementAt(i));
                             listNodeHosp.Add(hos);
                         }
                         this.nem.HromadnyInsertPacientov(listNodePac);

@@ -97,36 +97,20 @@ namespace Hospital_information_sytem.forms
             {
                 MessageBox.Show("Nezadali ste rušenú nemocnicu.");
             }
-            DialogResult dr = MessageBox.Show("Chcete vymazat nemocnicu?", "Ano", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dr = MessageBox.Show("Chcete vymazat nemocnicu?", "Ano", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
                 Nemocnica nahradna = this.inf_system.NajdiNemocnicu(comboBox2.Text);
                 Nemocnica rusena = this.inf_system.NajdiNemocnicu(comboBox1.Text);
 
-                List<Node<String, Hospitalizacia>> listRusenychHosp = rusena.VratMazaneHospitalizacieAkoListNodov(); ;
+                List<Node<(String,String,DateTime), Hospitalizacia>> listRusenychHosp = rusena.VratMazaneHospitalizacieAkoListNodov(); ;
                 List<Node<String, Pacient>> listRusenychPac = rusena.VratMazanychPacientovAkoListNodov();
+                List<Node<(String, String, String), Pacient>> listRusenychHospNove = rusena.VratMazanychPacientovAkoListNodov2();
 
                 nahradna.HromadnyInsertHospitalizacii(listRusenychHosp);
                 nahradna.HromadnyInsertPacientov(listRusenychPac);
-
-
-                /*for (int i = 0; i < listRusenychHospitalizacii.Count; i++)
-                {
-                    nahradna.PridajHospitalizaciu(listRusenychHospitalizacii.ElementAt(i).id_hospitalizacie, 
-                        listRusenychHospitalizacii.ElementAt(i).rod_cislo_pacienta,
-                        listRusenychHospitalizacii.ElementAt(i).datum_od, 
-                        listRusenychHospitalizacii.ElementAt(i).nazov_diagnozy);
-                }
-                for (int i = 0; i < listRusenychPacientov.Count; i++)
-                {
-                    nahradna.PridajPacienta(listRusenychPacientov.ElementAt(i).meno,
-                        listRusenychPacientov.ElementAt(i).priezvisko,
-                        listRusenychPacientov.ElementAt(i).rod_cislo,
-                        listRusenychPacientov.ElementAt(i).datum_narodenia,
-                        listRusenychPacientov.ElementAt(i).kod_poistovne,
-                        nahradna.nazov_nemocnice);
-                }*/
-
+                nahradna.HromadnyInsertPacientovNovyStrom(listRusenychHospNove);
 
                 if (this.inf_system.VymazNemocnicu(this.inf_system.NajdiNemocnicu(comboBox1.Text)))
                 {

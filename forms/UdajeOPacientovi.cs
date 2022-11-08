@@ -35,8 +35,11 @@ namespace Hospital_information_sytem.forms
             label3.Text = pacient.datum_narodenia.ToString();
             label4.Text = pacient.kod_poistovne;
 
-            List<Hospitalizacia> hospitalizaciee = pacient.VratListHospitalizacii();
-            List<Hospitalizacia> hospitalizacie = hospitalizaciee.OrderBy(o => o.datum_od).ToList();
+            
+
+            //zapise z BVS cez inOrder do listu, ktory sa vypisuje v listview
+            List<Hospitalizacia> hospitalizacie = pacient.VratListHospitalizacii();
+            //List<Hospitalizacia> hospitalizacie = hospitalizaciee.OrderBy(o => o.datum_od).ToList();
             for (int i = 0; i < hospitalizacie.Count; i++)
             {
                 ListViewItem item = new ListViewItem(hospitalizacie.ElementAt(i).id_hospitalizacie);

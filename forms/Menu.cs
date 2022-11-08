@@ -130,7 +130,7 @@ namespace Hospital_information_sytem
 
         private void button15_Click(object sender, EventArgs e)
         {
-            this.inf_system.Oprimalizuj();
+            this.inf_system.Optimalizuj();
             MessageBox.Show("Optimalizacia dokoncena.");
         }
 

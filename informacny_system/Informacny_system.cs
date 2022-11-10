@@ -590,7 +590,7 @@ namespace Hospital_information_sytem.structures
             strom.Vyvaz(strom.Root);
             (String, String) min = (kod_poistovne, "0000000000"); //minimalne rodne cislo
             (String, String) max = (kod_poistovne, "9999999999"); //maximalne rodne cislo
-            Binary_search_tree<(String, String, String, String), Pacient> stromNaData = new Binary_search_tree<(string, string, string, string), Pacient>();
+            Binary_search_tree<(String, String, String, String), Pacient> stromNaData = new Binary_search_tree<(String, String, String, String), Pacient>();
             if (strom.Root == null)
             {
                 return null;
@@ -615,12 +615,66 @@ namespace Hospital_information_sytem.structures
                 }
 
             }
+            //Najdi najmensieho
+            var lowest = current;
+            while(current != null)
+            {
+                int compare = current.Key.Item1.CompareTo(kod_poistovne);
+                if (compare == 0)
+                {
+                    if (lowest.Key.Item2.CompareTo(current.Key.Item2) > 0)
+                    {
+                        lowest = current;
+
+                        current = current.Left;
+                    }
+                }
+                else if (compare < 0)
+                {
+                    current = current.Right;
+                }
+                else
+                {
+                    current = current.Left;
+                }
+            }
+            current = strom.Root;
+            var bigest = current;
+            while (current != null)
+            {
+                int compare = current.Key.Item1.CompareTo(kod_poistovne);
+                if (compare == 0)
+                {
+                    if (bigest.Key.Item2.CompareTo(current.Key.Item2) < 0)
+                    {
+                        bigest = current;
+
+                        current = current.Right;
+                    }
+                }
+                else if (compare < 0)
+                {
+                    current = current.Right;
+                }
+                else
+                {
+                    current = current.Left;
+                }
+            }
+
+            writeAnIntervall(stromNaData, lowest, bigest);
+
+
             return stromNaData;
             
         
         
         }
 
+        private void writeAnIntervall(Binary_search_tree<(string, string, string, string), Pacient> stromNaData, Node<(string, string, string, string), Pacient> lowest, Node<(string, string, string, string), Pacient> bigest)
+        {
+            throw new NotImplementedException();
+        }
     }
     
 }

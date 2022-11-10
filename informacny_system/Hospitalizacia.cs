@@ -19,7 +19,7 @@ namespace Hospital_information_sytem.informacny_system
 
         public void LoadDataFromFile() 
         { 
-            StreamReader reader = new StreamReader("diagnozy.txt.txt");
+            StreamReader reader = new StreamReader("../../diagnozy.txt");
             //String size = Convert.ToString(reader.ReadLine());
             while (!reader.EndOfStream)
             {

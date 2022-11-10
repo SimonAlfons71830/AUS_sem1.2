@@ -87,6 +87,12 @@ namespace Hospital_information_sytem.forms
                 var uloha8 = new UdajeOPacientochMeno(this.inf_system, nemocnica.aktualne_hospitalizovani_POIS_RC, nemocnica);
                 uloha8.ShowDialog();
             }
+            else if (comboBox1.Created && checkBox1.Checked) 
+            {
+                Binary_search_tree<(String, String, String, String), Pacient> strom = this.inf_system.intervaloveVyhladavanie(nemocnica.aktualne_hospitalizovani_POIS_RC, this.kod);
+                var uloha9 = new UdajeOPacientochMeno(this.inf_system, strom, nemocnica);
+                uloha9.ShowDialog();
+            }
             /*else if (comboBox1.Created && checkBox1.Checked && !checkBox3.Checked)
             {
                 //rovno su zoradeni aj podla rc

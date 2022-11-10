@@ -662,18 +662,15 @@ namespace Hospital_information_sytem.structures
                 }
             }
 
-            writeAnIntervall(stromNaData, lowest, bigest);
+            while (current != strom.Root)
+            {
 
+            }
 
             return stromNaData;
             
         
         
-        }
-
-        private void writeAnIntervall(Binary_search_tree<(string, string, string, string), Pacient> stromNaData, Node<(string, string, string, string), Pacient> lowest, Node<(string, string, string, string), Pacient> bigest)
-        {
-            throw new NotImplementedException();
         }
     }
     

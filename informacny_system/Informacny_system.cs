@@ -249,7 +249,10 @@ namespace Hospital_information_sytem.structures
                         if (nem != null)
                         {
                             List<Node<String, Pacient>> listNodePacNem = new List<Node<string, Pacient>>();
-                            List<Node<(String, String, DateTime), Hospitalizacia>> listNodeHospNem = new List<Node<(String, String, DateTime), Hospitalizacia>>();
+                            List<Node<(DateTime, String), Hospitalizacia>> listNodeHospNem = new List<Node<(DateTime, String), Hospitalizacia>>();
+                            List<Node<(DateTime, String), Hospitalizacia>> listNodeAktualneHospNem = new List<Node<(DateTime, String), Hospitalizacia>>();
+                            List<Node<(String, String, String, String), Pacient>> listNodeAktualneHospPOIS_RCNem = new List<Node<(String, String, String, String), Pacient>>();
+                            List<Node<(String, String, String, String), Pacient>> listNodeAktualneHospPOIS_P_M_RCNem = new List<Node<(String, String, String, String), Pacient>>();
                             for (int i = 0; i < listpac.Count; i++)
                             {
                                 Node<String, Pacient> pac = new Node<String, Pacient>(listpac.ElementAt(i).rod_cislo, listpac.ElementAt(i));
@@ -257,13 +260,51 @@ namespace Hospital_information_sytem.structures
                             }
                             for (int i = 0; i < listhosp.Count; i++)
                             {
-                                Node<(String, String, DateTime), Hospitalizacia> hos = new Node<(String, String, DateTime),
-                                    Hospitalizacia>((listhosp.ElementAt(i).id_hospitalizacie, listhosp.ElementAt(i).rod_cislo_pacienta, 
-                                    listhosp.ElementAt(i).datum_od), listhosp.ElementAt(i));
+                                Node<(DateTime,String), Hospitalizacia> hos = new Node<(DateTime, String),
+                                    Hospitalizacia>((listhosp.ElementAt(i).datum_od,listhosp.ElementAt(i).id_hospitalizacie 
+                                    ), listhosp.ElementAt(i));
                                 listNodeHospNem.Add(hos);
                             }
-                            nem.HromadnyInsertPacientov(listNodePacNem);
-                            nem.HromadnyInsertHospitalizacii(listNodeHospNem);
+                            for (int i = 0; i < listhosp.Count; i++)
+                            {
+                                Node<(DateTime, String), Hospitalizacia> hos =
+                                    new Node<(DateTime, String),
+                                    Hospitalizacia>((listhosp.ElementAt(i).datum_od, listhosp.ElementAt(i).id_hospitalizacie
+                                    ), listhosp.ElementAt(i));
+                                if (listNodeHospNem.ElementAt(i).Data.datum_do.Year == 0001)
+                                {
+                                    listNodeAktualneHospNem.Add(hos);
+                                }
+
+                            }
+
+                            for (int i = 0; i < listNodeAktualneHospNem.Count; i++)
+                            {
+                                for (int j = 0; j < listNodePacNem.Count; j++)
+                                {
+                                    if (listNodeAktualneHospNem.ElementAt(i).Data.rod_cislo_pacienta == listNodePacNem.ElementAt(j).Data.rod_cislo)
+                                    {
+                                        Node<(String, String, String, String), Pacient> pac =
+                                            new Node<(String, String, String, String),
+                                                Pacient>((listNodePacNem.ElementAt(j).Data.kod_poistovne, listNodePacNem.ElementAt(j).Data.rod_cislo,
+                                                    listNodePacNem.ElementAt(j).Data.priezvisko, listNodePacNem.ElementAt(j).Data.meno),
+                                                        listNodePacNem.ElementAt(i).Data);
+                                        Node<(String, String, String, String), Pacient> pac2 =
+                                            new Node<(String, String, String, String),
+                                                Pacient>((listNodePacNem.ElementAt(j).Data.kod_poistovne,
+                                                    listNodePacNem.ElementAt(j).Data.priezvisko, listNodePacNem.ElementAt(j).Data.meno, listNodePacNem.ElementAt(j).Data.rod_cislo),
+                                                        listNodePacNem.ElementAt(i).Data);
+
+                                        listNodeAktualneHospPOIS_RCNem.Add(pac);
+                                        listNodeAktualneHospPOIS_P_M_RCNem.Add(pac2);
+                                    }
+                                }
+
+                            }
+
+
+                            nem.HromadnyInsertPacientov(listNodePacNem, listNodeAktualneHospPOIS_RCNem, listNodeAktualneHospPOIS_P_M_RCNem);
+                            nem.HromadnyInsertHospitalizacii(listNodeHospNem,listNodeAktualneHospNem);
                             
 
                             this.databaza_nemocnic.Insert(nem.nazov_nemocnice, nem);
@@ -323,7 +364,10 @@ namespace Hospital_information_sytem.structures
                 // MOZEM TO ROBIT AJ JEDNOTLIVYM VKLADANIM HOSPITALIZACII A NASLEDNE PACIENTA DO NEMOCNICE - MUSELO BY VEDIET CITAT NASLEDUJUCI RIADOK INAK AKO JE TO TERAZ
                 //insert poslednej
                 List<Node<String, Pacient>> listNodePac = new List<Node<string, Pacient>>();
-                List<Node<(String, String, DateTime), Hospitalizacia>> listNodeHosp = new List<Node<(String, String, DateTime), Hospitalizacia>>();
+                List<Node<(DateTime, String), Hospitalizacia>> listNodeHosp = new List<Node<(DateTime, String), Hospitalizacia>>();
+                List<Node<(DateTime, String), Hospitalizacia>> listNodeAktualneHosp = new List<Node<(DateTime, String), Hospitalizacia>>();
+                List<Node<(String, String, String, String), Pacient>> listNodeAktualneHospPOIS_RC = new List<Node<(String, String, String, String), Pacient>>();
+                List<Node<(String, String, String, String), Pacient>> listNodeAktualneHospPOIS_P_M_RC = new List<Node<(String, String, String, String), Pacient>>();
                 for (int i = 0; i < listpac.Count; i++)
                 {
                     Node<String, Pacient> pac = new Node<String, Pacient>(listpac.ElementAt(i).rod_cislo, listpac.ElementAt(i));
@@ -331,14 +375,50 @@ namespace Hospital_information_sytem.structures
                 }
                 for (int i = 0; i < listhosp.Count; i++)
                 {
-                    Node<(String, String, DateTime), Hospitalizacia> hos = new Node<(String, String, DateTime),
-                        Hospitalizacia>((listhosp.ElementAt(i).id_hospitalizacie,
-                        listhosp.ElementAt(i).rod_cislo_pacienta, 
-                        listhosp.ElementAt(i).datum_od), listhosp.ElementAt(i));
+                    Node< (DateTime,String), Hospitalizacia> hos = new Node<(DateTime, String),
+                        Hospitalizacia>((listhosp.ElementAt(i).datum_od,listhosp.ElementAt(i).id_hospitalizacie), listhosp.ElementAt(i));
                     listNodeHosp.Add(hos);
                 }
-                nem.HromadnyInsertPacientov(listNodePac);
-                nem.HromadnyInsertHospitalizacii(listNodeHosp);
+                for (int i = 0; i < listhosp.Count; i++)
+                {
+                    Node<(DateTime, String), Hospitalizacia> hos =
+                        new Node<(DateTime, String),
+                        Hospitalizacia>((listhosp.ElementAt(i).datum_od, listhosp.ElementAt(i).id_hospitalizacie
+                        ), listhosp.ElementAt(i));
+                    if (listhosp.ElementAt(i).datum_do.Year == 0001)
+                    {
+                        listNodeAktualneHosp.Add(hos);
+                    }
+
+                }
+
+                for (int i = 0; i < listNodeAktualneHosp.Count; i++)
+                {
+                    for (int j = 0; j < listNodePac.Count; j++)
+                    {
+                        if (listNodeAktualneHosp.ElementAt(i).Data.rod_cislo_pacienta == listNodePac.ElementAt(j).Data.rod_cislo)
+                        {
+                            Node<(String, String, String, String), Pacient> pac =
+                                new Node<(String, String, String, String),
+                                    Pacient>((listNodePac.ElementAt(j).Data.kod_poistovne, listNodePac.ElementAt(j).Data.rod_cislo,
+                                        listNodePac.ElementAt(j).Data.priezvisko, listNodePac.ElementAt(j).Data.meno),
+                                            listNodePac.ElementAt(i).Data);
+                            Node<(String, String, String, String), Pacient> pac2 =
+                                new Node<(String, String, String, String),
+                                    Pacient>((listNodePac.ElementAt(j).Data.kod_poistovne,
+                                        listNodePac.ElementAt(j).Data.priezvisko, listNodePac.ElementAt(j).Data.meno, listNodePac.ElementAt(j).Data.rod_cislo),
+                                            listNodePac.ElementAt(i).Data);
+
+                            listNodeAktualneHospPOIS_RC.Add(pac);
+                            listNodeAktualneHospPOIS_P_M_RC.Add(pac2);
+                        }
+                    }
+
+                }
+
+
+                nem.HromadnyInsertPacientov(listNodePac,listNodeAktualneHospPOIS_RC,listNodeAktualneHospPOIS_P_M_RC);
+                nem.HromadnyInsertHospitalizacii(listNodeHosp,listNodeAktualneHosp);
 
 
                 this.databaza_nemocnic.Insert(nem.nazov_nemocnice, nem);
@@ -471,7 +551,6 @@ namespace Hospital_information_sytem.structures
 
             }
         }
-
 
         public void ZapisSystemPoistovna()
         {

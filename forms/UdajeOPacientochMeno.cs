@@ -15,9 +15,9 @@ namespace Hospital_information_sytem.forms
     public partial class UdajeOPacientochMeno : Form
     {
         protected Informacny_system inf_system;
-        protected Binary_search_tree<(String, String, String), Pacient> pacienti;
+        protected Binary_search_tree<(String, String, String, String), Pacient> pacienti;
         protected Nemocnica nemocnica;
-        public UdajeOPacientochMeno(Informacny_system system, Binary_search_tree<(String, String,String),Pacient> pac, Nemocnica nem)
+        public UdajeOPacientochMeno(Informacny_system system, Binary_search_tree<(String, String, String, String),Pacient> pac, Nemocnica nem)
         {
             InitializeComponent();
             this.inf_system = system;

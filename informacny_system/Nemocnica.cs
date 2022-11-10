@@ -10,13 +10,17 @@ namespace Hospital_information_sytem.informacny_system
     public class Nemocnica
     {
         public String nazov_nemocnice;
-        Binary_search_tree<String, Pacient> pacienti = new Binary_search_tree<string, Pacient>();
-        Binary_search_tree<(String, String, String), Pacient> pac_podla_mena = new Binary_search_tree<(string, string, string), Pacient>();
+        public Binary_search_tree<String, Pacient> pacienti = new Binary_search_tree<string, Pacient>();
+        public Binary_search_tree<(String, String, String, String), Pacient> pac_podla_mena = new Binary_search_tree<( String, String, String, String), Pacient>();
         //Binary_search_tree<String, Hospitalizacia> hospitalizacie = new Binary_search_tree<string, Hospitalizacia>();
-        Binary_search_tree<(String, String, DateTime), Hospitalizacia> hospitalizacie_nove = new Binary_search_tree<(String, String, DateTime), Hospitalizacia>();
-        Binary_search_tree<(DateTime, String), Hospitalizacia> aktualne_hospitalizacie = new Binary_search_tree<(DateTime, string), Hospitalizacia>();
-        Binary_search_tree<(String, String,String), Pacient> aktualne_hospitalizovani = new Binary_search_tree<(string, string,String), Pacient>();
-       
+        public Binary_search_tree<(DateTime,String), Hospitalizacia> hospitalizacie_nove = new Binary_search_tree<(DateTime, String), Hospitalizacia>();
+
+        public Binary_search_tree<(DateTime, String), Hospitalizacia> aktualne_hospitalizacie = new Binary_search_tree<(DateTime, String), Hospitalizacia>();
+        public Binary_search_tree<(String, String, String, String), Pacient> aktualne_hospitalizovani_POIS_RC = new Binary_search_tree<(String, String, String, String), Pacient>();
+        public Binary_search_tree<(String,String, String,String), Pacient> aktualne_hospitalizovani_POIS_Priezv_men_RC = new Binary_search_tree<(String, String, String, String), Pacient>();
+
+
+
 
         public bool PridajPacienta(String meno, String priezvisko, String rod_cislo, DateTime datum_narodenia, String kod_poistovne, String nazov_nemocnice)
         {
@@ -31,7 +35,7 @@ namespace Hospital_information_sytem.informacny_system
             
             var pom = this.pacienti.Insert(rod_cislo, pacient);
 
-            (String, String, String) keyPac = (pacient.priezvisko, pacient.meno, pacient.rod_cislo);
+            (String, String, String, String) keyPac = (pacient.priezvisko, pacient.meno, pacient.rod_cislo, pacient.kod_poistovne);
             var pompom = this.pac_podla_mena.Insert(keyPac,pacient);
             
 
@@ -55,10 +59,43 @@ namespace Hospital_information_sytem.informacny_system
                 TraverseInOrder(parent.Right,strom,key);
             }
         }
-        
-        public Binary_search_tree<(String,String,String), Pacient> NajdiPacientPodlaMena(String priezvisko, String meno)
+
+        public void InOrderMeno(Node<(String, String, String, String), Pacient> parent, Binary_search_tree<(String,  String, String, String), Pacient> strom, (String, String) key) 
         {
-            Binary_search_tree<(String, String, String), Pacient> pacientiPodlaMena = new Binary_search_tree<(string, string, string), Pacient>();
+            if ( parent == null)
+            {
+                return;
+            }
+
+
+            Stack< Node<(String, String, String, String), Pacient> > s = new Stack<Node<(String, String, String, String), Pacient>>();
+            Node<(String, String, String, String), Pacient> curr = parent;
+
+            
+            while (curr != null || s.Count > 0)
+            {
+
+                while (curr != null)
+                {
+                    s.Push(curr);
+                    curr = curr.Left;
+                }
+                curr = s.Pop();
+
+                if (curr.Key.Item1.CompareTo(key.Item1) == 0 && curr.Key.Item2.CompareTo(key.Item2) == 0)
+                {
+                    strom.Insert((key.Item1, key.Item2, curr.Data.rod_cislo, curr.Data.kod_poistovne), curr.Data);
+                }
+
+                curr = curr.Right;
+            }
+
+
+        }
+        
+        public Binary_search_tree<(String,String, String, String), Pacient> NajdiPacientPodlaMena(String priezvisko, String meno)
+        {
+            Binary_search_tree<(String, String, String, String), Pacient> pacientiPodlaMena = new Binary_search_tree<(String, String, String, String), Pacient>();
             (String, String) key = (priezvisko, meno);
             var current = this.pac_podla_mena.Root;
             while (current != null)
@@ -72,7 +109,7 @@ namespace Hospital_information_sytem.informacny_system
                         compare = current.Key.Item2.CompareTo(key.Item2);
                         if (compare == 0)
                         {
-                            this.TraverseInOrder(current, pacientiPodlaMena,key);
+                            this.InOrderMeno(current, pacientiPodlaMena,key);
                             return pacientiPodlaMena;
                         }
                         if (compare<0)
@@ -121,8 +158,16 @@ namespace Hospital_information_sytem.informacny_system
         {
             return this.pac_podla_mena.ZapisVsetkyNody(pac_podla_mena.Root);
         }
+        public List<Pacient> VratListAktualneHospPacientovPoslaPoisRC()
+        {
+            return this.aktualne_hospitalizovani_POIS_RC.ZapisVsetkyNody(aktualne_hospitalizovani_POIS_RC.Root);
+        }
+        public List<Pacient> VratListAktualneHospPacientovPoslaPoisMena()
+        {
+            return this.aktualne_hospitalizovani_POIS_Priezv_men_RC.ZapisVsetkyNody(aktualne_hospitalizovani_POIS_RC.Root);
+        }
 
-        public void TraverseInOrderPreAktualneHosp(Node<(String, String,DateTime), Hospitalizacia> parent)
+        public void TraverseInOrderPreAktualneHosp(Node<(DateTime,String), Hospitalizacia> parent)
         {
             if (parent != null)
             {
@@ -136,80 +181,12 @@ namespace Hospital_information_sytem.informacny_system
             }
         }
 
-        public Binary_search_tree<(DateTime, String), Hospitalizacia> DajStromAktualnyzchHospitalizacii() 
-        {
-            this.TraverseInOrderPreAktualneHosp(this.hospitalizacie_nove.Root);
-            return this.aktualne_hospitalizacie;
-
-        }
-
-        public void TraverseInOrderPreAktualneHospPacientov(Node<(DateTime, String), Hospitalizacia> hosp) 
-        {
-            if (hosp != null)
-            {
-                TraverseInOrderPreAktualneHospPacientov(hosp.Left);
-
-                Pacient pac = this.NajdiPacient(hosp.Data.rod_cislo_pacienta);
-                this.aktualne_hospitalizovani.Insert((hosp.Data.rod_cislo_pacienta, pac.priezvisko, pac.meno), pac);
-                TraverseInOrderPreAktualneHospPacientov(hosp.Right);
-            }
-        }
-
-        public Binary_search_tree<(String, String,String), Pacient> DajStromAktualneHospitalizovanych()
-        {
-            this.TraverseInOrderPreAktualneHospPacientov(this.DajStromAktualnyzchHospitalizacii().Root);
-            return this.aktualne_hospitalizovani;
-        }
-
-
-        public void TraverseInOrderPreAktualneHospPacientovPodlaPoistovne(Node<(String,String, String), Pacient> pac, String kod_poistovne, Binary_search_tree<(String, String, String), Pacient> aktualne_hospitalizovani_poistovna)
-        {
-            if (pac  != null)
-            {
-                TraverseInOrderPreAktualneHospPacientovPodlaPoistovne(pac.Left, kod_poistovne, aktualne_hospitalizovani_poistovna) ;
-                if (pac.Data.kod_poistovne == kod_poistovne)
-                {
-                    aktualne_hospitalizovani_poistovna.Insert((pac.Data.rod_cislo, pac.Data.priezvisko, pac.Data.meno), pac.Data);
-                }
-                TraverseInOrderPreAktualneHospPacientovPodlaPoistovne(pac.Right, kod_poistovne, aktualne_hospitalizovani_poistovna);
-            }
-        }
-
-        public Binary_search_tree<(String, String, String), Pacient> DajStromAktualneHospitalizovanychPodlaPoistovne(String kodPoistovne)
-        {
-            Binary_search_tree<(String, String, String), Pacient> aktualne_hospitalizovani_poistovna = new Binary_search_tree<(string, string, String), Pacient>();
-            this.DajStromAktualneHospitalizovanych();
-            this.TraverseInOrderPreAktualneHospPacientovPodlaPoistovne(this.aktualne_hospitalizovani.Root,kodPoistovne, aktualne_hospitalizovani_poistovna);
-            return aktualne_hospitalizovani_poistovna;
-        }
-
-
-        public void TraverseInOrderPreAktualneHospPacientovPodlaPoistovneZoradeniPodlaMena(Node<(String, String, String), Pacient> pac, Binary_search_tree<(String, String, String), Pacient> aktualne_hospitalizovani_poistovna_zoradeni)
-        {
-            if (pac != null)
-            {
-                TraverseInOrderPreAktualneHospPacientovPodlaPoistovneZoradeniPodlaMena(pac.Left, aktualne_hospitalizovani_poistovna_zoradeni);
-
-                aktualne_hospitalizovani_poistovna_zoradeni.Insert((pac.Data.priezvisko, pac.Data.meno, pac.Data.rod_cislo), pac.Data);
-                
-                TraverseInOrderPreAktualneHospPacientovPodlaPoistovneZoradeniPodlaMena(pac.Right, aktualne_hospitalizovani_poistovna_zoradeni);
-            }
-        }
-
-        public Binary_search_tree<(String, String, String), Pacient> DajStromAkutalneHospitalizovanychPodlaPoistovneZoradeniPodlaPriezviska(String kod_poistovne)
-        {
-            Binary_search_tree<(String, String, String), Pacient> aktualneHospPodlaPois = this.DajStromAktualneHospitalizovanychPodlaPoistovne(kod_poistovne);
-            Binary_search_tree<(String, String, String), Pacient> aktualneHospPodlaPoisZoradeni = new Binary_search_tree<(string, string, String), Pacient>();
-            //inorder prepisat podla key.item2
-            this.TraverseInOrderPreAktualneHospPacientovPodlaPoistovneZoradeniPodlaMena(aktualneHospPodlaPois.Root, aktualneHospPodlaPoisZoradeni);
-            return aktualneHospPodlaPoisZoradeni;
-        }
 
         public bool PridajHospi(Hospitalizacia hosp)
         {
             if (hosp != null)
             {
-                (String, String, DateTime) keyHosp = (hosp.id_hospitalizacie, hosp.rod_cislo_pacienta, hosp.datum_od);
+                (DateTime, String) keyHosp = (hosp.datum_od,hosp.id_hospitalizacie);
                 //this.hospitalizaciePacienta.Add(hosp);
                 this.hospitalizacie_nove.Insert(keyHosp, hosp);
                 return true;
@@ -229,7 +206,7 @@ namespace Hospital_information_sytem.informacny_system
             String rod_cislo = id_hospitalizacie.Substring(8, 10);
 
             if (id_hospitalizacie == string.Empty) { return null; }
-            var pom = hospitalizacie_nove.FindNode((id_hospitalizacie,rod_cislo,dateTime)).Data;
+            var pom = hospitalizacie_nove.FindNode((dateTime,id_hospitalizacie)).Data;
             if (pom == null) { return null; } else { return pom; }
         }
 
@@ -237,11 +214,14 @@ namespace Hospital_information_sytem.informacny_system
         {
             return this.hospitalizacie_nove.ZapisVsetkyNody(hospitalizacie_nove.Root);
         }
-
+        public List<Hospitalizacia> VratListAktivnychHospitalizacii()
+        {
+            return this.aktualne_hospitalizacie.ZapisVsetkyNody(aktualne_hospitalizacie.Root);
+        }
         public List<Node<String, Pacient>> VratMazanychPacientovAkoListNodov() 
         {
             List<Pacient> listRusenychPacientov =this.VratListPacientov();
-            List<Node<String, Pacient>> listNodovPac= new List<Node<string, Pacient>>();
+            List<Node<String, Pacient>> listNodovPac= new List<Node<String, Pacient>>();
 
             for (int i = 0; i < listRusenychPacientov.Count; i++)
             {
@@ -251,62 +231,117 @@ namespace Hospital_information_sytem.informacny_system
 
             return listNodovPac;
         }
-        public List<Node<(String, String, String), Pacient>> VratMazanychPacientovAkoListNodov2()
+
+        public List<Node<(String,String,String,String), Pacient>> VratMazanychAktualnychPacientovAkoListNodovPrePoisRC()
         {
-            List<Pacient> listRusenychPacientov = this.VratListPacientov();
-            List<Node<(String,String,String), Pacient>> listNodovPac = new List<Node<(String, String, String), Pacient>>();
+            List<Pacient> listRusenychPacientov = this.VratListAktualneHospPacientovPoslaPoisRC();
+            List<Node<(String, String, String, String), Pacient>> listNodovPac = new List<Node<(String, String, String, String), Pacient>>();
 
             for (int i = 0; i < listRusenychPacientov.Count; i++)
             {
-                Node<(String, String, String), Pacient> nodePacient = this.pac_podla_mena.FindNode((listRusenychPacientov.ElementAt(i).priezvisko, listRusenychPacientov.ElementAt(i).meno, listRusenychPacientov.ElementAt(i).rod_cislo));
+                Node<(String, String, String, String), Pacient> nodePacient = this.aktualne_hospitalizovani_POIS_RC.FindNode((listRusenychPacientov.ElementAt(i).kod_poistovne,
+                    listRusenychPacientov.ElementAt(i).rod_cislo, listRusenychPacientov.ElementAt(i).priezvisko, listRusenychPacientov.ElementAt(i).meno));
                 listNodovPac.Add(nodePacient);
             }
 
             return listNodovPac;
         }
-        public List<Node<(String,String,DateTime), Hospitalizacia>> VratMazaneHospitalizacieAkoListNodov() 
+
+
+        public List<Node<(String, String, String, String), Pacient>> VratMazanychAktualnychPacientovAkoListNodovPrePoisMENO()
+        {
+            List<Pacient> listRusenychPacientov = this.VratListAktualneHospPacientovPoslaPoisMena();
+            List<Node<(String, String, String, String), Pacient>> listNodovPac = new List<Node<(String, String, String, String), Pacient>>();
+
+            for (int i = 0; i < listRusenychPacientov.Count; i++)
+            {
+                Node<(String, String, String, String), Pacient> nodePacient = this.aktualne_hospitalizovani_POIS_Priezv_men_RC.FindNode((listRusenychPacientov.ElementAt(i).kod_poistovne,
+                    listRusenychPacientov.ElementAt(i).priezvisko, listRusenychPacientov.ElementAt(i).meno, listRusenychPacientov.ElementAt(i).rod_cislo));
+                listNodovPac.Add(nodePacient);
+            }
+
+            return listNodovPac;
+        }
+        public List<Node<(String, String, String, String), Pacient>> VratMazanychPacientovAkoListNodov2()
+        {
+            List<Pacient> listRusenychPacientov = this.VratListPacientov();
+            List<Node<(String,String,String, String), Pacient>> listNodovPac = new List<Node<(String, String, String, String), Pacient>>();
+
+            for (int i = 0; i < listRusenychPacientov.Count; i++)
+            {
+                Node<(String, String, String, String), Pacient> nodePacient = this.pac_podla_mena.FindNode((listRusenychPacientov.ElementAt(i).priezvisko, listRusenychPacientov.ElementAt(i).meno, listRusenychPacientov.ElementAt(i).rod_cislo,listRusenychPacientov.ElementAt(i).kod_poistovne));
+                listNodovPac.Add(nodePacient);
+            }
+
+            return listNodovPac;
+        }
+        public List<Node<(DateTime, String), Hospitalizacia>> VratMazaneHospitalizacieAkoListNodov() 
         {
             List<Hospitalizacia> listRusenychHospitalizacii = this.VratListHospitalizacii();
-            List<Node<(String, String, DateTime), Hospitalizacia>> listNodovHsop = new List<Node<(String, String, DateTime), Hospitalizacia>>();
+
+            List<Node<(DateTime, String), Hospitalizacia>> listNodovHsop = new List<Node<(DateTime, String), Hospitalizacia>>();
 
             for (int i = 0; i < listRusenychHospitalizacii.Count; i++)
             {
-                Node<(String, String, DateTime), Hospitalizacia> nodeHospitalizacie =
-                    this.hospitalizacie_nove.FindNode((listRusenychHospitalizacii.ElementAt(i).id_hospitalizacie,
-                    listRusenychHospitalizacii.ElementAt(i).rod_cislo_pacienta, listRusenychHospitalizacii.ElementAt(i).datum_od)) ;
+                Node<(DateTime, String), Hospitalizacia> nodeHospitalizacie =
+                    this.hospitalizacie_nove.FindNode((listRusenychHospitalizacii.ElementAt(i).datum_od,listRusenychHospitalizacii.ElementAt(i).id_hospitalizacie)) ;
                 listNodovHsop.Add(nodeHospitalizacie);
             }
 
             return listNodovHsop;
         }
 
-        public void HromadnyInsertPacientov(List<Node<String,Pacient>> listPacientov) 
+        public List<Node<(DateTime, String), Hospitalizacia>> VratMazaneAktualneHospitalizacieAkoListNodov()
+        {
+            List<Hospitalizacia> listRusenychAktualnychHospitalizacii = this.VratListAktivnychHospitalizacii();
+
+            List<Node<(DateTime, String), Hospitalizacia>> listNodovHsop = new List<Node<(DateTime, String), Hospitalizacia>>();
+
+            for (int i = 0; i < listRusenychAktualnychHospitalizacii.Count; i++)
+            {
+                Node<(DateTime, String), Hospitalizacia> nodeHospitalizacie =
+                    this.aktualne_hospitalizacie.FindNode((listRusenychAktualnychHospitalizacii.ElementAt(i).datum_od, listRusenychAktualnychHospitalizacii.ElementAt(i).id_hospitalizacie));
+                listNodovHsop.Add(nodeHospitalizacie);
+            }
+
+            return listNodovHsop;
+        }
+
+
+
+
+        public void HromadnyInsertPacientov(List<Node<String,Pacient>> listPacientov, List<Node<(String,String,String,String), Pacient>> listAktPacPoiRC, List<Node<(String, String, String, String), Pacient>> listAktPacPOIMENO) 
         {
             
             this.pacienti.ZapisMedianDoQueueList(listPacientov);
-            List<Node<(String, String, String), Pacient>> listNodePacientov = new List<Node<(string, string, string), Pacient>>();
+            List<Node<(String, String, String, String), Pacient>> listNodePacientov = new List<Node<(string, string, string, String), Pacient>>();
             for (int i = 0; i < listPacientov.Count; i++)
             {
                 
-                var key = (listPacientov.ElementAt(i).Data.priezvisko, listPacientov.ElementAt(i).Data.meno, listPacientov.ElementAt(i).Data.rod_cislo);
-                var node = new Node<(String, String, String), Pacient>(key, listPacientov.ElementAt(i).Data);
+                var key = (listPacientov.ElementAt(i).Data.priezvisko, listPacientov.ElementAt(i).Data.meno, listPacientov.ElementAt(i).Data.rod_cislo, listPacientov.ElementAt(i).Data.kod_poistovne);
+                var node = new Node<(String, String, String, String), Pacient>(key, listPacientov.ElementAt(i).Data);
                 listNodePacientov.Add(node);
             }
             this.pac_podla_mena.ZapisMedianDoQueueList(listNodePacientov);
-            
+            this.aktualne_hospitalizovani_POIS_RC.ZapisMedianDoQueueList(listAktPacPoiRC);
+            this.aktualne_hospitalizovani_POIS_Priezv_men_RC.ZapisMedianDoQueueList(listAktPacPOIMENO);
 
         }
-        public void HromadnyInsertPacientovNovyStrom(List<Node<(String,String,String), Pacient>> listPacientov)
+        public void HromadnyInsertPacientovNovyStrom(List<Node<(String,String,String, String), Pacient>> listPacientov)
         {
             this.pac_podla_mena.ZapisMedianDoQueueList(listPacientov);
             //this.pac_podla_mena.ZapisMedianDoQueueList(listPacientov);
 
         }
 
-        public void HromadnyInsertHospitalizacii(List<Node<(String,String, DateTime), Hospitalizacia>> listHospitalizacii)
+        public void HromadnyInsertHospitalizacii(List<Node<(DateTime,String ), Hospitalizacia>> listHospitalizacii, List<Node<(DateTime, String), Hospitalizacia>> listaktualnychHospitalizacii)
         {
             this.hospitalizacie_nove.ZapisMedianDoQueueList(listHospitalizacii);
+            this.aktualne_hospitalizacie.ZapisMedianDoQueueList(listaktualnychHospitalizacii);
         }
+        
+
+
 
         public void InOrderOptimalizujHospitalizaciePacienta(Node<String, Pacient> parent)
         {
@@ -334,7 +369,7 @@ namespace Hospital_information_sytem.informacny_system
             
             this.pacienti.Vyvaz(this.pacienti.Root);
             this.InOrderOptimalizujHospitalizaciePacienta(this.pacienti.Root);
-            this.InOrderOptimalizujHospitalizaciePacienta2(this.pac_podla_mena.Root);
+            //this.InOrderOptimalizujHospitalizaciePacienta2(this.pac_podla_mena.Root);
             this.hospitalizacie_nove.Vyvaz(this.hospitalizacie_nove.Root);
         }
 

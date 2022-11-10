@@ -93,8 +93,8 @@ namespace Hospital_information_sytem.informacny_system
 
         public void GenerujHospitalizaciu(Informacny_system informacny_system)
         {
-            Hospitalizacia hospitalizacia = new Hospitalizacia();
-            hospitalizacia.LoadDataFromFile();
+            
+           
             //hospitalizacia.PridajDiagnozy();
             //hospitalizacia.LoadDataFromFile();
             Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
@@ -116,9 +116,17 @@ namespace Hospital_information_sytem.informacny_system
                     {
                         return;
                     }
-                    poslednaHospPacienta.Data.datum_do = randDatKoniec;
-                    this.aktivneHosp.Remove(poslednaHospPacienta.Data.id_hospitalizacie);
+                    //var haldana = nem.hospitalizacie_nove.FindNode(poslednaHospPacienta.Key);
+                    
+                   /* var pompom = nem.aktualne_hospitalizacie.FindNode(poslednaHospPacienta.Key);
+                    var size = nem.aktualne_hospitalizacie.Size;
+                    nem.aktualne_hospitalizacie.ExtractNodee(pompom);*/
+                    
 
+
+                    poslednaHospPacienta.Data.datum_do = randDatKoniec;
+                    
+                    
                 }
                 start = new DateTime(poslednaHospPacienta.Data.datum_do.Year,
                         poslednaHospPacienta.Data.datum_do.Month,
@@ -157,22 +165,168 @@ namespace Hospital_information_sytem.informacny_system
                 mesiacID = randDat.Month.ToString();
             }
             Hospitalizacia hosp = new Hospitalizacia();
-
+            hosp.LoadDataFromFile();
             String rokID = randDat.Year.ToString();
             String id_hospitalizacie = denID + mesiacID + rokID + pac.rod_cislo;
             hosp.id_hospitalizacie = id_hospitalizacie;
-            List<String> diagnozy = hospitalizacia.VratListDiagnoz();
+            List<String> diagnozy = hosp.VratListDiagnoz();
             String diagnozaNazov = diagnozy.ElementAt(_random.Next(diagnozy.Count));
             hosp.nazov_diagnozy = diagnozaNazov;
             hosp.datum_od = randDat;
             hosp.rod_cislo_pacienta = pac.rod_cislo;
-            nem.PridajHospi(hosp);
-            pac.PridajHosp(hosp);
-            this.aktivneHosp.Add(id_hospitalizacie);
+
+            pac.pacientove_hosp.Insert((hosp.datum_od,hosp.id_hospitalizacie),hosp);
+            nem.hospitalizacie_nove.Insert((hosp.datum_od,hosp.id_hospitalizacie),hosp);
+            //nem.aktualne_hospitalizacie.Insert((hosp.datum_od, hosp.id_hospitalizacie), hosp);
+            //nem.aktualne_hospitalizacie.Insert((hosp.datum_od,hosp.id_hospitalizacie),hosp);
         }
-        
-        
-        public void UkonciHospitalizaciuPacienta(Pacient pacient, Nemocnica nemocnica) 
+
+
+        public void GenerujHospitalizaciu2(Informacny_system informacny_system) 
+        {
+            Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
+            List<Pacient> aktualnyPacientiNemocnice = nem.VratListPacientov();
+            Pacient pac = aktualnyPacientiNemocnice.ElementAt(_random.Next(aktualnyPacientiNemocnice.Count));
+            var poslednaHospPacienta = pac.VratPoslednuHospitalizaciu();
+            DateTime start;
+            DateTime randDatStart;
+            Hospitalizacia hosp = new Hospitalizacia();
+            if (poslednaHospPacienta == null)
+            {
+                start = new DateTime(pac.datum_narodenia.Year, pac.datum_narodenia.Month, pac.datum_narodenia.Day);
+            }
+            else
+            {
+                start = new DateTime(poslednaHospPacienta.Data.datum_do.Year,
+                        poslednaHospPacienta.Data.datum_do.Month,
+                        poslednaHospPacienta.Data.datum_do.Day).AddDays(1);
+            }
+                int range = (DateTime.Today - start).Days;
+            if (range < 0)
+            {
+                range = +2;
+            }
+            randDatStart = start.AddDays(_random.Next(range));
+
+                String denID;
+            if (randDatStart.Day < 10)
+            {
+                denID = "0" + randDatStart.Day.ToString();
+            }
+            else
+            {
+                denID = randDatStart.Day.ToString();
+            }
+
+                String mesiacID;
+            if (randDatStart.Month < 10)
+            {
+                mesiacID = "0" + randDatStart.Month.ToString();
+            }
+            else
+            {
+                mesiacID = randDatStart.Month.ToString();
+            }
+            hosp.LoadDataFromFile();
+            List<String> diagnozy = hosp.VratListDiagnoz();
+
+
+            DateTime koniec;
+            /*koniec = new DateTime(poslednaHospPacienta.Data.datum_od.Year,
+                poslednaHospPacienta.Data.datum_od.Month,
+                poslednaHospPacienta.Data.datum_od.Day);*/
+            var randDatKoniec = start.AddDays(_random.Next(3, 15));
+
+            if (randDatStart.Date == DateTime.Today)
+            {
+                return;
+            }
+            if (randDatKoniec.Date >= DateTime.Today)
+            {
+                return;
+            }
+
+            hosp.datum_od = randDatStart;
+            hosp.datum_do = randDatKoniec;
+            hosp.rod_cislo_pacienta = pac.rod_cislo;
+            hosp.id_hospitalizacie = denID + mesiacID + randDatStart.Year.ToString()+ pac.rod_cislo;
+            hosp.nazov_diagnozy = diagnozy.ElementAt(_random.Next(diagnozy.Count));
+            pac.PridajHosp(hosp);
+            nem.PridajHospi(hosp);
+            pac.pacientove_hosp.Vyvaz(pac.pacientove_hosp.Root);
+        }
+
+
+        public void GenerujNeukoncenuHospitalizaciu(Informacny_system informacny_system) 
+        {
+            Nemocnica nem = informacny_system.NajdiNemocnicu(this.pouziteNazvyNemocnic.ElementAt(_random.Next(this.pouziteNazvyNemocnic.Count)));
+            List<Pacient> aktualnyPacientiNemocnice = nem.VratListPacientov();
+            Pacient pac = aktualnyPacientiNemocnice.ElementAt(_random.Next(aktualnyPacientiNemocnice.Count));
+            var poslednaHospPacienta = pac.VratPoslednuHospitalizaciu();
+            DateTime start;
+            DateTime randDatStart;
+            Hospitalizacia hosp = new Hospitalizacia();
+            if (poslednaHospPacienta == null)
+            {
+                start = new DateTime(pac.datum_narodenia.Year, pac.datum_narodenia.Month, pac.datum_narodenia.Day);
+            } else if (poslednaHospPacienta.Data.datum_do.Year == 0001) 
+            {
+                return;
+            }
+            else
+            {
+                start = new DateTime(poslednaHospPacienta.Data.datum_do.Year,
+                        poslednaHospPacienta.Data.datum_do.Month,
+                        poslednaHospPacienta.Data.datum_do.Day).AddDays(1);
+            }
+            int range = (DateTime.Today - start).Days;
+            if (range < 0)
+            {
+                range = +2;
+            }
+            randDatStart = start.AddDays(_random.Next(range));
+
+            String denID;
+            if (randDatStart.Day < 10)
+            {
+                denID = "0" + randDatStart.Day.ToString();
+            }
+            else
+            {
+                denID = randDatStart.Day.ToString();
+            }
+
+            String mesiacID;
+            if (randDatStart.Month < 10)
+            {
+                mesiacID = "0" + randDatStart.Month.ToString();
+            }
+            else
+            {
+                mesiacID = randDatStart.Month.ToString();
+            }
+            hosp.LoadDataFromFile();
+            List<String> diagnozy = hosp.VratListDiagnoz();
+
+
+            if (randDatStart.Date == DateTime.Today)
+            {
+                return;
+            }
+            
+
+            hosp.datum_od = randDatStart;
+            hosp.rod_cislo_pacienta = pac.rod_cislo;
+            hosp.id_hospitalizacie = denID + mesiacID + randDatStart.Year.ToString() + pac.rod_cislo;
+            hosp.nazov_diagnozy = diagnozy.ElementAt(_random.Next(diagnozy.Count));
+            pac.PridajHosp(hosp);
+            nem.PridajHospi(hosp);
+            nem.aktualne_hospitalizacie.Insert((hosp.datum_od, hosp.id_hospitalizacie), hosp);
+            nem.aktualne_hospitalizovani_POIS_RC.Insert((pac.kod_poistovne, pac.rod_cislo, pac.priezvisko, pac.meno),pac);
+            nem.aktualne_hospitalizovani_POIS_Priezv_men_RC.Insert((pac.kod_poistovne, pac.priezvisko, pac.meno, pac.rod_cislo), pac);
+        }
+
+        /*public void UkonciHospitalizaciuPacienta(Pacient pacient, Nemocnica nemocnica) 
         {
             Hospitalizacia hosp = pacient.VratListHospitalizacii().Last();
             
@@ -198,7 +352,7 @@ namespace Hospital_information_sytem.informacny_system
             hosp.datum_do = randDat;
             hospNem.datum_do = randDat;
             this.aktivneHosp.Remove(hosp.id_hospitalizacie);
-        }
-        
+        }*/
+
     }
 }

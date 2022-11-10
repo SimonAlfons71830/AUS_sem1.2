@@ -63,7 +63,7 @@ namespace Hospital_information_sytem
                         hospi.rod_cislo_pacienta = textBox1.Text;
                         hospi.datum_od = dateTimePicker1.Value;
                         hospi.nazov_diagnozy = comboBox1.Text;
-                        var pom = nemocnica.PridajHospi(hospi);
+
                         //var pom = nemocnica.PridajHospitalizaciu(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
                         //var pomPac = pacient.PridajHospitalizaciuPacientovi(id_hospitalizacie, textBox1.Text, dateTimePicker1.Value, comboBox1.Text);
                         if (pacient.JeAktualneHosp()) //datum do .year = 0001 - nema este ukoncenu predchadzajucu
@@ -73,6 +73,11 @@ namespace Hospital_information_sytem
                         else
                         {
                             var pomPac = pacient.PridajHosp(hospi);
+                            var pom = nemocnica.PridajHospi(hospi);
+                            nemocnica.aktualne_hospitalizacie.Insert((hospi.datum_od,hospi.id_hospitalizacie),hospi);
+                            nemocnica.aktualne_hospitalizovani_POIS_RC.Insert((pacient.kod_poistovne, pacient.rod_cislo, pacient.priezvisko, pacient.meno), pacient);
+                            nemocnica.aktualne_hospitalizovani_POIS_Priezv_men_RC.Insert((pacient.kod_poistovne, pacient.priezvisko, pacient.meno, pacient.rod_cislo), pacient);
+
                             if (pom && pomPac)
                             {
                                 MessageBox.Show("Hospitalizacia bola zaevidovana.");

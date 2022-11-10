@@ -82,12 +82,12 @@ namespace Hospital_information_sytem.forms
 
             if (comboBox1.Created && !checkBox1.Checked)
             {
-                Binary_search_tree<(String, String, String), Pacient> aktualneHosp =
-                nemocnica.DajStromAktualneHospitalizovanych();
-                var uloha8 = new UdajeOPacientochMeno(this.inf_system, aktualneHosp, nemocnica);
+                /*Binary_search_tree<(String, String, String), Pacient> aktualneHosp =
+                nemocnica.DajStromAktualneHospitalizovanych();*/
+                var uloha8 = new UdajeOPacientochMeno(this.inf_system, nemocnica.aktualne_hospitalizovani_POIS_RC, nemocnica);
                 uloha8.ShowDialog();
             }
-            else if (comboBox1.Created && checkBox1.Checked && !checkBox3.Checked)
+            /*else if (comboBox1.Created && checkBox1.Checked && !checkBox3.Checked)
             {
                 //rovno su zoradeni aj podla rc
                 Binary_search_tree<(String, String, String), Pacient> aktualneHospPoistovna =
@@ -108,7 +108,7 @@ namespace Hospital_information_sytem.forms
                 nemocnica.DajStromAkutalneHospitalizovanychPodlaPoistovneZoradeniPodlaPriezviska(this.kod);
                 var uloha15 = new UdajeOPacientochMeno(this.inf_system, aktualneHospPoistovnaMeno, nemocnica);
                 uloha15.ShowDialog();
-            }
+            }*/
             
 
 

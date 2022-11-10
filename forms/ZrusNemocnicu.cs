@@ -104,13 +104,17 @@ namespace Hospital_information_sytem.forms
                 Nemocnica nahradna = this.inf_system.NajdiNemocnicu(comboBox2.Text);
                 Nemocnica rusena = this.inf_system.NajdiNemocnicu(comboBox1.Text);
 
-                List<Node<(String,String,DateTime), Hospitalizacia>> listRusenychHosp = rusena.VratMazaneHospitalizacieAkoListNodov(); ;
+                List<Node<(DateTime, String), Hospitalizacia>> listRusenychHosp = rusena.VratMazaneHospitalizacieAkoListNodov();
+                List<Node<(DateTime, String), Hospitalizacia>> listRusenychAktivnychHosp = rusena.VratMazaneAktualneHospitalizacieAkoListNodov();
                 List<Node<String, Pacient>> listRusenychPac = rusena.VratMazanychPacientovAkoListNodov();
-                List<Node<(String, String, String), Pacient>> listRusenychHospNove = rusena.VratMazanychPacientovAkoListNodov2();
+                List<Node<(String,String,String,String), Pacient>> listRusenychAktulanychPacPodlaPois = rusena.VratMazanychAktualnychPacientovAkoListNodovPrePoisRC();
+                List<Node<(String, String, String, String), Pacient>> listRusenychAktualnychPacPodlsaPoisMena= rusena.VratMazanychAktualnychPacientovAkoListNodovPrePoisMENO();
 
-                nahradna.HromadnyInsertHospitalizacii(listRusenychHosp);
-                nahradna.HromadnyInsertPacientov(listRusenychPac);
-                nahradna.HromadnyInsertPacientovNovyStrom(listRusenychHospNove);
+                List<Node<(String, String, String, String), Pacient>> listRusenychHospNove = rusena.VratMazanychPacientovAkoListNodov2();
+
+                nahradna.HromadnyInsertHospitalizacii(listRusenychHosp,listRusenychAktivnychHosp);
+                nahradna.HromadnyInsertPacientov(listRusenychPac,listRusenychAktulanychPacPodlaPois,listRusenychAktualnychPacPodlsaPoisMena);
+                //nahradna.HromadnyInsertPacientovNovyStrom(listRusenychHospNove);
 
                 if (this.inf_system.VymazNemocnicu(this.inf_system.NajdiNemocnicu(comboBox1.Text)))
                 {

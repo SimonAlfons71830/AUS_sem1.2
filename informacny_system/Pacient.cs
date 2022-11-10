@@ -16,7 +16,7 @@ namespace Hospital_information_sytem.informacny_system
         public String kod_poistovne { get; set; }
         public DateTime datum_narodenia { get; set; }
         //List<Hospitalizacia> hospitalizaciePacienta = new List<Hospitalizacia>();
-        Binary_search_tree<(DateTime, String, String), Hospitalizacia> pacientove_hosp = new Binary_search_tree<(DateTime, String, String), Hospitalizacia>();
+        public Binary_search_tree<(DateTime, String), Hospitalizacia> pacientove_hosp = new Binary_search_tree<(DateTime, String), Hospitalizacia>();
 
        
         public bool PridajHospitalizaciuPacientovi(String id_hospitalizacie, String rod_cislo, DateTime dat_od, String nazov_diagnozy)
@@ -30,7 +30,7 @@ namespace Hospital_information_sytem.informacny_system
             hospitalizacia.rod_cislo_pacienta = rod_cislo;
             hospitalizacia.datum_od = dat_od;
             hospitalizacia.nazov_diagnozy = nazov_diagnozy;
-            (DateTime, String, String) keyHosp = (hospitalizacia.datum_od,hospitalizacia.id_hospitalizacie, hospitalizacia.rod_cislo_pacienta);
+            (DateTime, String) keyHosp = (hospitalizacia.datum_od,hospitalizacia.id_hospitalizacie);
             //this.hospitalizaciePacienta.Add(hospitalizacia);
             this.pacientove_hosp.Insert(keyHosp, hospitalizacia);
             return true;
@@ -40,14 +40,14 @@ namespace Hospital_information_sytem.informacny_system
         {
             if (hosp != null)
             {
-                (DateTime, String, String) keyHosp = (hosp.datum_od,hosp.id_hospitalizacie, hosp.rod_cislo_pacienta);
+                (DateTime, String) keyHosp = (hosp.datum_od,hosp.id_hospitalizacie);
                 //this.hospitalizaciePacienta.Add(hosp);
                 this.pacientove_hosp.Insert(keyHosp, hosp);
                 return true;
             }
             return false;
         }
-        public Node<(DateTime, String, String),Hospitalizacia> VratPoslednuHospitalizaciu() 
+        public Node<(DateTime, String),Hospitalizacia> VratPoslednuHospitalizaciu() 
         {
             if (this.pacientove_hosp.Root != null)
             {
@@ -81,8 +81,7 @@ namespace Hospital_information_sytem.informacny_system
         {
 
             if (hospitalizacia == null) { return null; }
-            var pom = this.pacientove_hosp.FindNode((hospitalizacia.datum_od,hospitalizacia.id_hospitalizacie, 
-                hospitalizacia.rod_cislo_pacienta));
+            var pom = this.pacientove_hosp.FindNode((hospitalizacia.datum_od,hospitalizacia.id_hospitalizacie));
             if ( pom != null)
             {
                 return pom.Data;

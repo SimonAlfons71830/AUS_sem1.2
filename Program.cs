@@ -32,11 +32,14 @@ namespace Hospital_information_sytem
             {
                 generator.GenerujPacientaVPoistenca(inf_system);
             }
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                generator.GenerujHospitalizaciu(inf_system);
+                generator.GenerujHospitalizaciu2(inf_system);
             }
-
+            for (int i = 0; i < 100; i++)
+            {
+                generator.GenerujNeukoncenuHospitalizaciu(inf_system);
+            }
 
 
             //GUI
